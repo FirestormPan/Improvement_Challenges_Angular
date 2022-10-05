@@ -1,6 +1,4 @@
-<p>my-cards-page works!</p>
-
-
-<!---
-    <app-card [cardType] ="cardType2" [cardInfo]="cardInfo1" [name_person]="name_person"></app-card>
--->
+<div *ngFor="let card of cardInfo; let i = index" >
+    <app-card [cardInfo]="cardInfo[i]"></app-card>
+    <br>
+</div>

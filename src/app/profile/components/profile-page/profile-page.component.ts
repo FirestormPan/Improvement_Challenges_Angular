@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-profile-page',
@@ -7,9 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProfilePageComponent implements OnInit {
 
+ loginStatus:boolean = true;
+
+ @Output() sendLogout = new EventEmitter<any>()
+
   constructor() { }
 
   ngOnInit(): void {
   }
+
 
 }

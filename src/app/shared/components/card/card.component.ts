@@ -1,4 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { DataService } from '../../services/data.service';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { PopupCardComponent } from './popup-card/popup-card.component';
 
 @Component({
   selector: 'app-card',
@@ -8,19 +11,49 @@ import { Component, OnInit, Input } from '@angular/core';
 export class CardComponent implements OnInit {
 
   @Input() cardInfo: any;
-  rechievedTitle: string = '';
-  cardType: any  = '';
+  applicables: any = [];
 
-  @Input('name_person') public name_person ='';
+  activatedOn: number = 0;
  
-  public applicableTo = [];
 
-
-  constructor() { }
+  constructor(private myDataService : DataService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.rechievedTitle = this.cardInfo.title;
-    this.cardType = this.cardInfo.type;
+    this.cardInfo.applicableTo.forEach((id:number) => {
+      this.applicables.push(...this.myDataService.getPerson(id))
+    });
+    
+  }
+
+  getApplicablesString(){
+    var applicablesString = '';
+
+    var i=0;
+    while(i<3 && this.applicables[i]){
+      applicablesString += (this.applicables[i]?.name + ", ")
+      i++;
+    }
+    applicablesString = applicablesString.slice(0, -2)
+    if( this.applicables.length  > 3 ){
+      applicablesString += " +" + ( this.applicables.length - 3 )
+    }
+    return applicablesString;
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(PopupCardComponent,{
+      width: '250px',
+      data: {
+        targets: this.applicables,
+        title: this.cardInfo.title
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => { //no Ieda what this is. uselesS?
+      this.activatedOn = result;
+      //console.log(this.activatedOn);
+    });
+  
   }
 
 }

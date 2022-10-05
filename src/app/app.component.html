@@ -1,18 +1,19 @@
-<div>
-  <app-sidebar></app-sidebar>
-  <h1 class="mainTitle">Θαράκια</h1>
-  <div class="container-fluid">
-
-    <router-outlet></router-outlet>
-
-    <app-card [cardInfo]="cardInfo1" [name_person]="name_person"> </app-card>
-    <br>
-    <app-card [cardInfo]="cardInfo2" [name_person]="name_person"></app-card>
-
+<div class="container-fluid">
+  <div class="row flex-nowrap">
+    <div class="col-auto px-0">
+      
+    </div>
   </div>
 
 
-  
 
+  
+  <app-sidebar></app-sidebar>
+  <h1 class="mainTitle">Θαράκια</h1>
+  <div>
+
+    <router-outlet></router-outlet>
+
+  </div>
 
 </div>

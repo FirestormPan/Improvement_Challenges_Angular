@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { MyCardsRoutingModule } from './my-cards-routing.module';
 import { MyCardsPageComponent } from './components/my-cards-page/my-cards-page.component';
+import { SharedModule } from '../shared/shared.module';
 
 
 
@@ -12,9 +13,13 @@ import { MyCardsPageComponent } from './components/my-cards-page/my-cards-page.c
   ],
   imports: [
     CommonModule,
-    MyCardsRoutingModule
+    MyCardsRoutingModule,
+    SharedModule
   ]
 })
 export class MyCardsModule { 
+
+  ngOnInit(): void {
+  }
 
 }

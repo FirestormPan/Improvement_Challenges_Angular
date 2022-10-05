@@ -16,6 +16,14 @@ const routes: Routes = [
     loadChildren: ()=>import('./informatzione/informatzione.module').then(m => m.InformatzioneModule)
   },
   {
+    path:'contracts',
+    loadChildren: ()=>import('./contracts/contracts.module').then(m => m.ContractsModule)
+  },
+  {
+  path:'drawRandomDare',
+  loadChildren: ()=>import('./random-draw/random-draw.module').then(m => m.RandomDrawModule)
+  },
+  {
      path: '**',
      component: ProfilePageComponent 
   }

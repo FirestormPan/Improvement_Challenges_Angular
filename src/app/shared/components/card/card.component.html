@@ -1,13 +1,18 @@
-<div  [ngSwitch]="cardType">
-    <div class="card" *ngSwitchCase="'normal'" style="background-color:green"> 
-      <h3> {{ rechievedTitle | titlecase }}</h3>
+<div  [ngSwitch]="cardInfo.type">
+    <div *ngSwitchCase="'normal'" class="card card-3"> 
+      <h2> {{ cardInfo.title | titlecase }}</h2>
       <br>
-      <h5>{{name_person}}</h5>
+      <p>{{cardInfo.id}}</p>
     </div>
-    <div class="card" *ngSwitchCase="'activatable'" style="background-color:blue"> 
-      <h3>  {{ rechievedTitle | titlecase }} </h3>
+    <div *ngSwitchCase="'activatable'"  class="card card-4"> 
+      <h3>  {{ cardInfo.title | titlecase }} </h3>
       <br>
-      <h5>{{name_person}}</h5>
+      <p>{{cardInfo.id}}</p>
+      <p class="card__apply">
+        <span class="card__link" (click)="openDialog()" > Apply Now <i class="fa fa-arrow-right"></i> {{getApplicablesString()}} </span>
+        
+      </p>
+      <p *ngIf="activatedOn"> {{ activatedOn }}</p>
     </div>
     <div *ngSwitchDefault style="background-color:gray"><div>
   </div>
