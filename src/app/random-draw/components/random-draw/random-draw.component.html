@@ -1,0 +1,10 @@
+
+<app-card [cardInfo]="daregotten"  (click)="drawRandom(randomCategory())" ></app-card>
+<div class="row">
+    <div class="col">
+        <button (click)="drawRandom('truth')"> TRUTH </button>
+    </div>
+    <div class="col">
+        <button (click)="drawRandom('dare')"> DARE </button>
+    </div>
+</div>

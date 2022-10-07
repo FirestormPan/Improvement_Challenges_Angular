@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { RandomDrawRoutingModule } from './random-draw-routing.module';
-import { DrawRandomDareComponent } from './components/draw-random-dare/draw-random-dare.component';
+import { DrawRandomDareComponent } from './components/random-draw/random-draw.component';
 import { SharedModule } from '../shared/shared.module';
 
 

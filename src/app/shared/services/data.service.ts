@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError, retry } from 'rxjs/operators';
-import { ResourceLoader } from '@angular/compiler';
+import { Observable } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
+
+  baseURL: string = 'https://api.truthordarebot.xyz/v1/';
 
   people = [
     {id:103, name:"Aurorra"},
@@ -20,10 +21,19 @@ export class DataService {
 
   constructor(private http: HttpClient) { }
 
- getRandomDare(){
-  const dareURL: string = 'https://api.truthordarebot.xyz/api/dare';
-  let dare = this.http.get(dareURL)
-  return dare;
+ getRandomTruthOrDare(truthOrDare : string){
+  const currentURL: string = this.baseURL + truthOrDare;
+
+  try{
+    return this.http.get(currentURL);
+  }catch(err){
+    return new Observable<any>(
+      (subscriber) =>{
+        subscriber.next({question:'please select again', eroorLog: err})
+      }
+    );
+  }
+  
  }
 
 
@@ -31,25 +41,29 @@ export class DataService {
     return [
       {
         id:0,
-        title : 'my title is here',
         type : "activatable",
+        title : 'my title is here',
+        text: 'random dare',
         applicableTo : [103, 513, 105],       
       },
       {
         id:1,
         title : 'my title is here',
+        text: 'random dare',
         type : "normal",
         applicableTo : [999],        
       },
       {
         id:2,
         title : 'my title is here',
+        text: 'random dare',
         type : "activatable",
         applicableTo : [999,100,123,105],        
       },
       {
         id:3,
         title : 'my title is here',
+        text: 'random dare',
         type : "activatable",
         applicableTo : [999,100],        
       }

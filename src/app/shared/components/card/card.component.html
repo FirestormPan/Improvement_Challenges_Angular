@@ -2,10 +2,14 @@
     <div *ngSwitchCase="'normal'" class="card card-3"> 
       <h2> {{ cardInfo.title | titlecase }}</h2>
       <br>
+      <p> {{cardInfo.text}} </p>
+      <br>
       <p>{{cardInfo.id}}</p>
     </div>
     <div *ngSwitchCase="'activatable'"  class="card card-4"> 
-      <h3>  {{ cardInfo.title | titlecase }} </h3>
+      <h2>  {{ cardInfo.title | titlecase }} </h2>
+      <br>
+      <p> {{cardInfo.text}} </p>
       <br>
       <p>{{cardInfo.id}}</p>
       <p class="card__apply">

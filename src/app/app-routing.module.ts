@@ -20,7 +20,7 @@ const routes: Routes = [
     loadChildren: ()=>import('./contracts/contracts.module').then(m => m.ContractsModule)
   },
   {
-  path:'drawRandomDare',
+  path:'drawRandom',
   loadChildren: ()=>import('./random-draw/random-draw.module').then(m => m.RandomDrawModule)
   },
   {

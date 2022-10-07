@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { DataService } from '../../services/data.service';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { PopupCardComponent } from './popup-card/popup-card.component';
 
 @Component({
@@ -13,13 +13,12 @@ export class CardComponent implements OnInit {
   @Input() cardInfo: any;
   applicables: any = [];
 
-  activatedOn: number = 0;
- 
+  activatedOn: number | string = 0;
 
   constructor(private myDataService : DataService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.cardInfo.applicableTo.forEach((id:number) => {
+    this.cardInfo.applicableTo?.forEach((id:number) => {
       this.applicables.push(...this.myDataService.getPerson(id))
     });
     

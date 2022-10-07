@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DrawRandomDareComponent } from './draw-random-dare.component';
+import { DrawRandomDareComponent } from './random-draw.component';
 
 describe('DrawRandomDareComponent', () => {
   let component: DrawRandomDareComponent;

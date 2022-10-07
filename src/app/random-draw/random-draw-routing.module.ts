@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DrawRandomDareComponent } from './components/draw-random-dare/draw-random-dare.component';
+import { DrawRandomDareComponent } from './components/random-draw/random-draw.component';
 
 const routes: Routes = [
   { path:'' , component: DrawRandomDareComponent }

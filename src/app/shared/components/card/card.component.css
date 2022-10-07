@@ -1,8 +1,13 @@
+h2{
+    margin: 4px;
+    padding: 9px;
+}
+
 .card {
     margin: 20px;
-    padding: 20px;
+    padding: 25px;
     width: 340px;
-    min-height: 200px;
+    min-height: 210px;
     display: grid;
     grid-template-rows: 20px 50px 1fr 50px;
     border-radius: 10px;
