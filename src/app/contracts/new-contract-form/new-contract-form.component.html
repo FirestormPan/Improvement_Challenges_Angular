@@ -1,3 +1,36 @@
-<p>new-contract-form works!</p>
+<form class="basicForm" (ngSubmit)="onSubmit($event, contracttitle.value.toString(), contractdescription.value.toString(), dateinput.value)">
+   <i>Create a New Contract to compete with your friends. Loser(s) get a Challenge. All fields are optional</i> 
+    <br>
+    <br>
+    <form (ngSubmit)="addParticipant(username.value)">
+        Participants: <input type="text" #username> <button type="button" class="btn-secondary" (click)="addParticipant(username.value)">Add</button>
+        <ul>
+            <li *ngFor="let person of contractParticipants"> {{person.name}}</li>
+        </ul>
+    </form>
+ 
+    <br>
+    Contract Title: <input type="text" #contracttitle> <br>
+    <textarea rows = "5" placeholder="Contract Description. What are you betting on?" #contractdescription></textarea><br>
 
-<button (click)="getResults()"> oops</button>
+    <br>
+    <Span>Due date:  </Span><input type="date" #dateinput /> 
+    <br>
+    <br>
+    <span>Challenge level:&nbsp;&nbsp;</span>
+    <input type="checkbox" [checked]="checked[1]" (change)="onChecked(1,$event)" value="green"> <label style="color:green">Green</label> &nbsp;&nbsp;
+    <input type="checkbox" [checked]="checked[2]" (change)="onChecked(2,$event)" value="yellow"> <label style="color:yellow">Yellow</label> &nbsp;&nbsp;
+    <input type="checkbox" [checked]="checked[3]" (change)="onChecked(3,$event)" value="red"> <label style="color:red">Red</label> &nbsp;&nbsp;
+    <input type="checkbox" [checked]="checked[4]" (change)="onChecked(4,$event)"  value="random"> <label style="color:green">Ra</label><label style="color:yellow">nd</label> <label style="color:red">om</label>&nbsp;&nbsp;
+    <input type="checkbox" [checked]="checked[0]" (change)="onChecked(0,$event)" value="custom"> <label style="color:purple">Custom Challenge</label> 
+    <br>
+    <span  class="{{checked[0]? 'open' : 'closed' }}">
+        Challenge Title: <input type="text" #challengeTitle> 
+        <br>
+        <textarea rows = "5" class="{{checked[0]? 'open' : 'closed' }}"> Custom: </textarea>
+    </span>
+
+    
+    <br><br><br><br>
+    <input class="btn-primary btn-lg" type="submit">  
+</form>

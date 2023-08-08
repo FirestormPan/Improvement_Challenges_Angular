@@ -1,15 +1,21 @@
+<h1 class="mainTitle">Improvemet Challenges</h1>
+
 <div class="container-fluid">
-  <div class="row flex-nowrap">
-    <div class="col-auto px-0">   
+  <div class="row">
+    <div class="col-sm-2">
+      <app-sidebar></app-sidebar>
+    </div>
+    <div class="col-sm">
+      
+      <div>
+    
+        <router-outlet></router-outlet>
+    
+      </div>
     </div>
   </div>
-
-  <app-sidebar></app-sidebar>
-  <h1 class="mainTitle">Θαράκια</h1>
-  <div>
-
-    <router-outlet></router-outlet>
-
-  </div>
-
+  <footer style="text-align:center; padding-top: 15px;">
+    <br>
+    <hr>&copy; &reg; PanWebEntertainment 
+  </footer>
 </div>

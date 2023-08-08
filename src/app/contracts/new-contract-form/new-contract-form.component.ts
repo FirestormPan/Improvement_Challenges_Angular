@@ -1,4 +1,12 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { DataService } from 'src/app/shared/services/data.service';
+
+type Person = {
+  id: number | string;
+  name: string;
+  pfp: string;
+};
+
 
 @Component({
   selector: 'app-new-contract-form',
@@ -7,17 +15,46 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 })
 export class NewContractFormComponent implements OnInit {
 
-  inputValue : string = "testNameA";
+  @Output() newContractEmitter: EventEmitter<any> = new EventEmitter();
 
-  @Output() nameToSearchBy: EventEmitter<string> = new EventEmitter();
+  checked :boolean[] = [false, false, false, false, true];
+  challengeLevel: string = 'random';
+  contractParticipants :Person[] = [];
+  username ='';
 
-  constructor() { }
+  constructor(private dataservice: DataService) { }
 
   ngOnInit(): void {
   }
 
-  getResults(){
-    this.nameToSearchBy.emit(this.inputValue)
+  onChecked(checkedBoxIndex:number, event:any){
+    this.checked =  [false, false, false, false, false]
+    this.checked[checkedBoxIndex] = true;
+    this.challengeLevel = event.target.value;
+  }
+
+  addParticipant(username :string) {
+    let them = this.dataservice.getPeopleArrayFromName(username)
+    them.forEach(
+      person =>{
+       if(!this.contractParticipants.find(participant => person.name === participant.name) )
+        this.contractParticipants.push( person )
+      } 
+    )
+  }
+
+  onSubmit(event:any, title :string, contractdescription :string, dateinput: any ){
+    event.preventDefault();
+    let vi ={
+      id: Math.ceil(Math.random()*1000),
+      participants: this.contractParticipants,
+      title: title,
+      description: contractdescription,
+      challengeLevel: this.challengeLevel,
+      expiresOn: dateinput,
+    }
+    //console.log(vi);
+    this.newContractEmitter.emit(vi)
   }
 
 }

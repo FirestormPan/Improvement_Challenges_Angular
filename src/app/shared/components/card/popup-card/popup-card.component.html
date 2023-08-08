@@ -2,11 +2,11 @@
 
 <mat-form-field appearance="fill">
     <mat-label>Select your Victim</mat-label>
-    <mat-select >
-        <mat-option *ngFor="let target of data.targets" value={{target.id}}  [(ngModel)]="data.activatedOn">
+    <mat-select  (selectionChange)="changeTarget($event.value)">
+        <mat-option *ngFor="let target of data.targets" [value]="target.id"  ngDefaultControl >
             {{target.name}}
          </mat-option>
     </mat-select>
 </mat-form-field>
-<button mat-button (click)="sendPerson(007)"  >OK</button>
+<button mat-button (click)="dialogRef.close(finalTarget)"  >OK</button>
 <button mat-button [mat-dialog-close]="data.activatedOn" cdkFocusInitial>"Cancel</button>

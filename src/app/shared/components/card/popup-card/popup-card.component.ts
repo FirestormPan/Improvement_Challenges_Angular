@@ -8,13 +8,15 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog
 })
 export class PopupCardComponent implements OnInit {
 
-  @Output() activatedOn = new EventEmitter<number>();
+  @Output() activatedOn :EventEmitter<string> = new EventEmitter<string>();
+
+  finalTarget = ''
 
   constructor(public dialogRef: MatDialogRef<PopupCardComponent>,
       @Inject(MAT_DIALOG_DATA) public data: {
         targets: any,
         title: string,
-        activatedOn: number
+        activatedOn: string  
       },
     ) { }
 
@@ -22,13 +24,13 @@ export class PopupCardComponent implements OnInit {
   }
 
   onNoClick(): void {
-    this.dialogRef.close();
+    this.dialogRef.close(this.finalTarget);
   }
 
-  sendPerson(selectedPerson: number){
-    this.activatedOn.emit(selectedPerson)
-  }
 
-  
+  changeTarget(value:any){
+    this.finalTarget = value ;
+    console.log(this.finalTarget);
+  }  
 
 }

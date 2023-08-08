@@ -1,0 +1,17 @@
+small{
+    text-align: right;
+}
+
+h5{
+    display: inline;
+}
+
+.card-footer{
+    justify-content: space-evenly;
+    margin-bottom: 6px;
+    padding: 5px;
+}
+
+.right{
+    float: right;
+}

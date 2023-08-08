@@ -12,4 +12,33 @@ export class SidebarComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  olap = ''
+  collapseGroup='';
+
+  open :boolean=true;
+
+  offcanvas() {
+    if(this.open){
+      this.olap = 'active';
+      //  $('.collapse').toggleClass('in').toggleClass('hidden-xs').toggleClass('visible-xs');
+      this.collapseGroup = "in hidden-xs visible-xs "
+    }else{
+      this.olap=''
+      this.collapseGroup = ''
+    }
+
+    this.open = !this.open;
+  };
+
+
+  sidebarWidth :string = 'openSidebar';
+
+  openNav() {
+    this.sidebarWidth = 'openSidebar';
+  }
+  
+  closeNav() {
+     this.sidebarWidth = "closeSidebar";
+  }
+
 }

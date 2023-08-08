@@ -1,9 +1,9 @@
-<nav class="sidebar d-table-row d-sm-block" z>
+<!--
+<nav class="sidebar d-sm-block d-none" >
     <div class="logo">
         <a [routerLink]="''">
             <img src="../../../assets\img\logo.jpg">
         </a>
-
     </div>
 
     <div class="navigation">
@@ -27,5 +27,38 @@
 
     </div>
 </nav>
+-->
+<div id="mySidenav" class="sidenav sidebar {{sidebarWidth}}">
+    <a href="javascript:void(0)" class="closebtn" (click)="closeNav()">&times;</a>
+    <div class="logo">
+        <a [routerLink]="''">
+            <img src="../../../assets\img\logo.jpg">
+        </a>
+    </div>
 
+    <div class="navigation">
+        <ul class="list-unstyled">
+            <li [routerLink]="'profile'" routerLinkActive="active">
+                <a>Profile</a>
+            </li>
+            <li [routerLink]="'myCards'" routerLinkActive="active">
+                <a>My Cards</a>
+            </li>
+            <!-- 
+            <li [routerLink]="'informatzione'" routerLinkActive="active">
+                <a>Inforamtion</a>
+            </li>
+            -->
+            <li [routerLink]="'contracts'" routerLinkActive="active">
+                <a>Contracts</a>
+            </li>
+            <li [routerLink]="'drawRandom'" routerLinkActive="active">
+                <a>Draw Random</a>
+            </li>
+        </ul>
 
+    </div>
+    
+</div>
+
+  <span style="font-size:30px;cursor:pointer" (click)="openNav()">&#9776; open</span>

@@ -23,10 +23,30 @@ export class DrawRandomDareComponent implements OnInit {
     }
   }
 
+  ExpressObserver={
+    next:(value:any)=>{
+      console.log(value.text)
+    },    error: (err:any) =>{
+      console.log("Observable got an error of: "+ err)
+    },
+    complete:()=>{
+      console.log("~~observer got a complete notification")
+    }
+  }
+
   constructor(private dataservice: DataService) { }
 
   ngOnInit(): void {
+    this.expressiona();    
   }
+
+  expressiona():void{
+    let observable : Observable<any> = this.dataservice.getFromExpressByDifficulty('green')
+    observable.subscribe(this.ExpressObserver)
+    
+  }
+
+
 
   drawRandom(truthOrDare  : string):void{
     let observable : Observable<any> = this.dataservice.getRandomTruthOrDare(truthOrDare).pipe(
@@ -44,5 +64,9 @@ export class DrawRandomDareComponent implements OnInit {
     else
     return 'dare'
   }
+
+
+
+
 
 }

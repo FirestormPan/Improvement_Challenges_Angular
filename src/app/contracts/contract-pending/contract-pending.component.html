@@ -1,0 +1,18 @@
+<div class="card bg-light mb-3" style="max-width: 18rem;">
+    <div class="card-header" >STATUS: {{ status }} </div>
+    <div class="card-body">
+      <h2 class="card-title">{{contractInfo.title | titlecase}}</h2>
+      <p class="card-text">{{contractInfo.description}}</p>
+
+      <dl>
+        <dt>Participants:</dt>
+        <li *ngFor="let participant of contractInfo.participants">{{participant.name}}</li>
+      </dl>
+      <h5>{{contractInfo.challengeLevel}}</h5>
+      <p *ngIf="contractInfo.dueDate" class="card-text"><small class="text-muted">Expires On: {{contractInfo.dueDate}}</small></p>
+    </div>
+    <div class="card-footer">
+        <button type="button" class="btn btn-success" (click)="status='COMPLETE'">Complete</button>
+        <button type="button" class="btn btn-outline-danger right" (click)="deleteContract()">Delete</button>
+    </div>
+  </div>

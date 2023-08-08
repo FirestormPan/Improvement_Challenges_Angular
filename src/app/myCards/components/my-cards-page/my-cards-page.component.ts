@@ -20,6 +20,8 @@ export class MyCardsPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.cardInfo = this.dataservice.getPersonsCards()
+
+    
   }
 
 }

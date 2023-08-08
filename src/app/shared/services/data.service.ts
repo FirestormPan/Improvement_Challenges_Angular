@@ -2,38 +2,52 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
 
-  baseURL: string = 'https://api.truthordarebot.xyz/v1/';
-
   people = [
-    {id:103, name:"Aurorra"},
-    {id:513, name:"Kosmas"},
-    {id:105, name:"Ioanna"},
-    {id:123, name:"Maria"},
-    {id:100, name:"Kwstas"},
-    {id:999, name:"Dimitris"},
+    {id:7, name:"Pantelis", pfp:'https://picsum.photos/200'},
+    {id:103, name:"Aurorra", pfp:'https://www.w3schools.com/images/w3schools_green.jpg'},
+    {id:513, name:"Kosmas", pfp:'https://www.w3schools.com/images/w3schools_green.jpg'},
+    {id:105, name:"Ioanna", pfp:'https://www.w3schools.com/images/w3schools_green.jpg'},
+    {id:123, name:"Maria", pfp:'https://www.w3schools.com/images/w3schools_green.jpg'},
+    {id:100, name:"Kwstas", pfp:'https://www.w3schools.com/images/w3schools_green.jpg'},
+    {id:999, name:"Dimitris", pfp:'https://www.w3schools.com/images/w3schools_green.jpg'},
+    {id:309, name:"Sindler", pfp:'https://www.w3schools.com/images/w3schools_green.jpg'},
+    {id:807, name:"Zerg", pfp:'https://www.w3schools.com/images/w3schools_green.jpg'},
+    {id:582, name:"Spaghetti", pfp:'https://www.w3schools.com/images/w3schools_green.jpg'},
+    {id:580, name:"Spari", pfp:'https://www.w3schools.com/images/w3schools_green.jpg'},
+    {id:581, name:"Sparilillililili", pfp:'https://www.w3schools.com/images/w3schools_green.jpg'},
+
+  ]
+
+  ourChallenges = [
+    {difficulty: "red", type: 'activateable', question:'Πεσε 10 καμψεις'},
   ]
 
   constructor(private http: HttpClient) { }
 
- getRandomTruthOrDare(truthOrDare : string){
-  const currentURL: string = this.baseURL + truthOrDare;
+  /**
+  *gets from server
+  * @returns a subscription with the wanted info
+  */
+ getRandomTruthOrDare(truthOrDare : string){ 
 
+  const baseURL: string = 'https://api.truthordarebot.xyz/v1/';
+
+  const currentURL: string = baseURL + truthOrDare;
   try{
     return this.http.get(currentURL);
-  }catch(err){
+  }
+  catch(err){
     return new Observable<any>(
       (subscriber) =>{
-        subscriber.next({question:'please select again', eroorLog: err})
+        subscriber.next({question:'please select again', errorLog: err})
       }
     );
   }
-  
  }
 
 
@@ -70,8 +84,29 @@ export class DataService {
     ];
   }
 
-  getPerson(wantedid:number){
-    return this.people.filter(person => person.id==wantedid);
+  getPeopleArrayFromName(wantedName :string){
+    return this.people.filter(person => person.name.toLocaleLowerCase()===wantedName.toLocaleLowerCase());
   }
+
+  getPeopleArrayFromID(wantedid :number|string){
+    return this.people.filter(person => person.id===wantedid);
+  }
+
+  getPersonFromID(wantedid:number|string){
+    return this.people.find(person => person.id === wantedid)
+  }
+
+  getFromExpress(){
+    let rechieved = this.http.get('http://localhost:3001/users/player');
+    return rechieved;
+  }
+
+  getFromExpressByDifficulty(color :string){
+    let rechieved = this.http.get('http://localhost:3001/challenges/'+color);
+   return rechieved;
+  }
+
+
+
 
 }

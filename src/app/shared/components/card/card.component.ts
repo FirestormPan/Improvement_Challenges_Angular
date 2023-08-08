@@ -13,13 +13,13 @@ export class CardComponent implements OnInit {
   @Input() cardInfo: any;
   applicables: any = [];
 
-  activatedOn: number | string = 0;
+  activatedon: number | string = 0;
 
   constructor(private myDataService : DataService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.cardInfo.applicableTo?.forEach((id:number) => {
-      this.applicables.push(...this.myDataService.getPerson(id))
+      this.applicables.push(...this.myDataService.getPeopleArrayFromID(id))
     });
     
   }
@@ -44,13 +44,13 @@ export class CardComponent implements OnInit {
       width: '250px',
       data: {
         targets: this.applicables,
-        title: this.cardInfo.title
+        title: this.cardInfo.title,
+        
       }
     });
 
     dialogRef.afterClosed().subscribe(result => { //no Ieda what this is. uselesS?
-      this.activatedOn = result;
-      //console.log(this.activatedOn);
+      this.activatedon = result;
     });
   
   }

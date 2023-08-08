@@ -6,8 +6,8 @@ h2{
 .card {
     margin: 20px;
     padding: 25px;
-    width: 340px;
-    min-height: 210px;
+    width: 300px;
+    min-height: 200px;
     display: grid;
     grid-template-rows: 20px 50px 1fr 50px;
     border-radius: 10px;
