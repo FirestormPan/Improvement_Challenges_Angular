@@ -1,0 +1,14 @@
+h1{
+    color:rgb(192, 43, 43);
+}
+
+div{
+    width: 200px;
+}
+
+section{
+    display: grid;
+    place-items: center;
+    align-content: center;
+    min-height: 10vh;
+}

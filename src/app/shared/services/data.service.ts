@@ -20,10 +20,22 @@ export class DataService {
     {id:582, name:"Spaghetti", pfp:'https://www.w3schools.com/images/w3schools_green.jpg'},
     {id:580, name:"Spari", pfp:'https://www.w3schools.com/images/w3schools_green.jpg'},
     {id:581, name:"Sparilillililili", pfp:'https://www.w3schools.com/images/w3schools_green.jpg'},
-
   ]
 
   ourChallenges = [
+    {difficulty: "red", type: 'activateable', question:'Πεσε 10 καμψεις'},
+    {difficulty: "red", type: 'activateable', question:'Dance an oriental belly dance for 2 mins'},
+    {difficulty: "red", type: 'activateable', question:'Sing Afrika by Shakira song'},
+    {difficulty: "red", type: 'activateable', question:'Πεσε 10 καμψεις'},
+    {difficulty: "red", type: 'activateable', question:'Πεσε 10 καμψεις'},
+    {difficulty: "red", type: 'activateable', question:'Πεσε 10 καμψεις'},
+    {difficulty: "red", type: 'activateable', question:'Πεσε 10 καμψεις'},
+    {difficulty: "red", type: 'activateable', question:'Πεσε 10 καμψεις'},
+    {difficulty: "red", type: 'activateable', question:'Πεσε 10 καμψεις'},
+    {difficulty: "red", type: 'activateable', question:'Πεσε 10 καμψεις'},
+    {difficulty: "red", type: 'activateable', question:'Πεσε 10 καμψεις'},
+    {difficulty: "red", type: 'activateable', question:'Πεσε 10 καμψεις'},
+    {difficulty: "red", type: 'activateable', question:'Πεσε 10 καμψεις'},
     {difficulty: "red", type: 'activateable', question:'Πεσε 10 καμψεις'},
   ]
 
