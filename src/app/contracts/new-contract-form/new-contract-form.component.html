@@ -3,7 +3,7 @@
     <br>
     <br>
     <form (ngSubmit)="addParticipant(username.value)">
-        Participants: <input type="text" #username> <button type="button" class="btn-secondary" (click)="addParticipant(username.value)">Add</button>
+        Participants: <input type="text" #username (input)="addParticipant(username.value)"> <button type="button" class="btn-secondary" (click)="addParticipant(username.value)">Add</button>
         <ul>
             <li *ngFor="let person of contractParticipants"> {{person.name}}</li>
         </ul>

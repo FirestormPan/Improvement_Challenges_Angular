@@ -1,7 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, fromEvent } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
+import { ajax } from 'rxjs/ajax';
 
+export interface User {
+  id: number | string;
+  name: string;
+  pfp: string;
+  contracts: string[];
+}
 @Injectable({
   providedIn: 'root'
 })
@@ -96,8 +104,20 @@ export class DataService {
     ];
   }
 
-  getPeopleArrayFromName(wantedName :string){
-    return this.people.filter(person => person.name.toLocaleLowerCase()===wantedName.toLocaleLowerCase());
+  // getPeopleArrayFromName(wantedName :string){
+  //   return this.people.filter(person => person.name.toLocaleLowerCase()===wantedName.toLocaleLowerCase());
+  // }
+  async getPeopleArrayFromName(wantedName :string){ //express
+
+    const contenstantInput = document.getElementById('username') as HTMLInputElement;
+    const typeahead = fromEvent(contenstantInput, 'input').pipe(
+      map(e=>(e.target as HTMLInputElement).value),
+      filter(text=>text.length>2),
+      debounceTime(10),
+      distinctUntilChanged(),
+      switchMap(searchTerm =>ajax(`http://localhost:3001/users/${searchTerm}`))
+    )
+    return typeahead
   }
 
   getPeopleArrayFromID(wantedid :number|string){
@@ -108,17 +128,38 @@ export class DataService {
     return this.people.find(person => person.id === wantedid)
   }
 
-  getFromExpress(){
-    let rechieved = this.http.get('http://localhost:3001/users/player');
-    return rechieved;
+  
+  //get matching users users
+  async getUserFromExpress(name:Number | String){
+   
+    const response = await fetch(`http://localhost:3001/users/${name}`);
+    return await response.json() ?? {};
   }
+
+
+
+  // async getUserFromExpress(name:Number | String): Promise<User | undefined>{
+
+  //   const response = await fetch(`http://localhost:3001/users/${name}`);
+  //   return await response.json() ?? {};
+        
+  //   // return this.http.get<User>('http://localhost:3001/users/player', {observe: 'body', responseType: 'json'})
+  //   // .pipe(
+  //   //   map( (res)=>{
+  //   //   for(const key in res){
+  //   //   }
+  //   // } )
+  //   // )
+  //   // .subscribe((response)=>{
+  //   //   console.log(response)
+
+  //   // })
+     
+  // }
 
   getFromExpressByDifficulty(color :string){
     let rechieved = this.http.get('http://localhost:3001/challenges/'+color);
    return rechieved;
   }
-
-
-
 
 }
