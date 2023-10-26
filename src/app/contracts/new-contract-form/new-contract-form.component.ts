@@ -44,18 +44,18 @@ export class NewContractFormComponent implements OnInit {
     // let a = await this.dataservice.getUserFromExpress(username);
     // console.log(a)
 
-    const usernameInput = this.usernameInput.nativeElement;
+    // const usernameInput = this.usernameInput.nativeElement;
 
-    fromEvent(usernameInput, 'input').pipe(
-      map( (e: Event) => (e as InputEvent).target?.value || ''),
-      filter((text:String)=>text.length>2),
-      debounceTime(10),
-      distinctUntilChanged(),
-      switchMap(searchTerm =>ajax(`http://localhost:3001/users/${searchTerm}`))
-    )
-    .subscribe((response)=>{
-        console.log(response)
-      })
+    // fromEvent(usernameInput, 'input').pipe(
+    //   map( (e: Event) => (e as InputEvent).target?.value || ''),
+    //   filter((text:String)=>text.length>2),
+    //   debounceTime(10),
+    //   distinctUntilChanged(),
+    //   switchMap(searchTerm =>ajax(`http://localhost:3001/users/${searchTerm}`))
+    // )
+    // .subscribe((response)=>{
+    //     console.log(response)
+    //   })
 
 
     // this.dataservice.getPeopleArrayFromName(username)

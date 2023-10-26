@@ -1,0 +1,20 @@
+POST http://localhost:3001/users/create
+Content-Type: application/json
+
+{ "id":2, "name": "maria", "pfp":"Default", "contracts": ["id3", "id493"] }
+
+
+###
+POST http://localhost:3001/users/create
+Content-Type: application/json
+
+{ "id":1, "name": "pantelos", "pfp":"Default", "contracts": ["id2", "id493"] }
+
+###
+POST http://localhost:3001/users/create
+Content-Type: application/json
+
+{ "id":3,  "name": "slavanderos", "pfp":"Default", "contracts": ["id4", "id493"] }
+
+###
+GET http://jsonplaceholder.typicode.com/users

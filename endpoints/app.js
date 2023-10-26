@@ -4,14 +4,25 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require("cors");
-const mysql = require('mysql');
+const mongoose=require('mongoose')
 
 //step1 orizw ta routers (2 na ta kalesw se auto to arxeio me use)
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var challengesRouter = require('./routes/challenges');
+var usersRouter = require('./routes/usersRouter');
+var challengesRouter = require('./routes/challengesRouter');
 
-var app = express();
+const app = express();
+
+//conect to the database and then start the server at port 3001
+const dbURI = "mongodb+srv://pantelos1999:zfcTRzfCi7eyKipu@improvementdares.pupxk9g.mongodb.net/ImprovementDares?retryWrites=true&w=majority"
+mongoose.connect(dbURI)
+.then(()=>{
+    console.log("connected to database")
+    //listen for requests
+    const port = 3001; //porta
+    app.listen(port);
+    console.log("ola boba sthn porta:" , port);
+}).catch((err)=>{console.log(err)})
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -30,7 +41,7 @@ app.use(cors({
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/challenges', challengesRouter);
-// catch 404 and forward to error handler
+// catch 404 and forward to error handler (if none of the above  were true!)
 app.use(function(req, res, next) {
   next(createError(404));
 });
@@ -39,37 +50,11 @@ app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
-  // render the error page
+
   res.status(err.status || 500);
-  res.render('error');
+  res.send(err.message)
 });
 
-const port = 3001; //porta
 
-//# Database Connection!
-// // Create a connection to the database
-// const connection = mysql.createConnection({
-//   host: 'localhost',
-//   user: 'root',
-//   password: 'kalampangalareleme1209',
-//   database: "mydb"       
-// });
-
-// // open the MySQL connection
-// connection.connect(error => {
-//   if (error){
-//       console.log("A error has been occurred " + "while connecting to database.");       
-//       throw error;
-//   }
-   
-//   //If Everything goes correct, Then start Express Server
-//   app.listen(PORT, ()=>{
-//       console.log("Database connection is Ready and " + "Server is Listening on Port ", PORT);
-//   })
-// });
-
-app.listen(port, ()=>{
-  console.log("ola boba sthn porta:" , port)
-})
 
 module.exports = app;
