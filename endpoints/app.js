@@ -4,7 +4,6 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require("cors");
-const mongoose=require('mongoose')
 
 //step1 orizw ta routers (2 na ta kalesw se auto to arxeio me use)
 var indexRouter = require('./routes/index');
@@ -13,18 +12,7 @@ var challengesRouter = require('./routes/challengesRouter');
 
 const app = express();
 
-//conect to the database and then start the server at port 3001
-const dbURI = "mongodb+srv://pantelos1999:zfcTRzfCi7eyKipu@improvementdares.pupxk9g.mongodb.net/ImprovementDares?retryWrites=true&w=majority"
-mongoose.connect(dbURI)
-.then(()=>{
-    console.log("connected to database")
-    //listen for requests
-    const port = 3001; //porta
-    app.listen(port);
-    console.log("ola boba sthn porta:" , port);
-}).catch((err)=>{console.log(err)})
-
-// view engine setup
+// view engine setup (irrelevant)
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
