@@ -2,15 +2,15 @@ const mariadb = require('mariadb');
 
 const pool = mariadb.createPool({
     // host: 'db',
-    host: localhost,
+    host: 'localhost',
     // host: 'expressapiwmariadb_docker-db-1',
     // host: '172.21.0.3',
     // host: '127.0.0.1',
     port: 3306,
     user: "root",
-    password: "example",
-    // password: "aveMaria69",
-    database: "my_database_ex2",
+    // password: "example",
+    password: "aveMaria69",
+    database: "improvement_dares",
     multipleStatements: true,
     connectionLimit:15,
     idleTimeout: 5000

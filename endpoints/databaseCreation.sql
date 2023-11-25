@@ -7,12 +7,25 @@ CREATE TABLE IF NOT EXISTS users (
     profile_picture varchar(255) DEFAULT "https://www.w3schools.com/images/w3schools_green.jpg"
 );
 
-INSERT INTO users (username, profile_picture) VALUES
-    ('administrator_p'),
-    ('packman');
+INSERT INTO users (id, username, profile_picture) VALUES
+    ("1", 'pantelos', 'Default'),
+    ("2", 'maria', 'Default'),
+    ("3", 'slavanderos', 'Default'),
+    ("4", 'anika', 'Default'),
+    ("7", 'Pantelis', 'https://picsum.photos/200'),
+    ("103", 'Aurorra', 'https://www.w3schools.com/images/w3schools_green.jpg'),
+    ("513", 'Kosmas', 'https://www.w3schools.com/images/w3schools_green.jpg'),
+    ("105", 'Ioanna', 'https://www.w3schools.com/images/w3schools_green.jpg'),
+    ("123", 'Maria', 'https://www.w3schools.com/images/w3schools_green.jpg'),
+    ("100", 'Kwstas', 'https://www.w3schools.com/images/w3schools_green.jpg'),
+    ("999", 'Dimitris', 'https://www.w3schools.com/images/w3schools_green.jpg'),
+    ("309", 'Sindler', 'https://www.w3schools.com/images/w3schools_green.jpg'),
+    ("807", 'Zerg', 'https://www.w3schools.com/images/w3schools_green.jpg'),
+    ("582", 'Spaghetti', 'https://www.w3schools.com/images/w3schools_green.jpg'),
+    ("580", 'Spari', 'https://www.w3schools.com/images/w3schools_green.jpg'),
+    ("581", 'Sparilillililili', 'https://www.w3schools.com/images/w3schools_green.jpg');
 
-INSERT INTO users (username) VALUES
-    ('pantelos', 'Default');
+
 
 CREATE TABLE IF NOT EXISTS contracts (
     id int AUTO_INCREMENT NOT NULL PRIMARY KEY,
@@ -20,6 +33,7 @@ CREATE TABLE IF NOT EXISTS contracts (
 );
 
 CREATE TABLE IF NOT EXISTS user_contracts (
+    CONSTRAINT user_contracts_assignes PRIMARY KEY (user_id, contract_id),
     user_id INT NOT NULL,
     CONSTRAINT `user_constraint`
     FOREIGN KEY (user_id) REFERENCES users (id)
@@ -29,6 +43,6 @@ CREATE TABLE IF NOT EXISTS user_contracts (
     CONSTRAINT `contract_constraint`
     FOREIGN KEY (contract_id) REFERENCES contracts (id)
     ON DELETE CASCADE
-    ON UPDATE CASCADE,
-    CONSTRAINT user_contracts_assignes PRIMARY KEY (user_id, contract_id)
+    ON UPDATE CASCADE
+
 );

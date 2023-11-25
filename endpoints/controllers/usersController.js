@@ -1,28 +1,11 @@
-const pool = require('../helpers/database');
+const pool = require('../helpers/databaseConnection');
+const { json } = require('body-parser');
 
-var users = [
-    { id:1, name: "pantelos", pfp:"Default", contracts: ["id2", "id493"] },
-    { id:2, name: "maria", pfp:"Default", contracts: ["id3", "id493"] },
-    { id:3,  name: "slavanderos", pfp:"Default", contracts: ["id4", "id493"] },
-    { id:4, name: "anika", pfp:"Default", contracts: ["id69", "id493"] },
-    {id:7, name:"Pantelis", pfp:'https://picsum.photos/200'},
-    {id:103, name:"Aurorra", pfp:'https://www.w3schools.com/images/w3schools_green.jpg', contracts: ["id4", "id493"]},
-    {id:513, name:"Kosmas", pfp:'https://www.w3schools.com/images/w3schools_green.jpg', contracts: ["id4", "id493"]},
-    {id:105, name:"Ioanna", pfp:'https://www.w3schools.com/images/w3schools_green.jpg', contracts: ["id4", "id493"]},
-    {id:123, name:"Maria", pfp:'https://www.w3schools.com/images/w3schools_green.jpg', contracts: ["id4", "id493"]},
-    {id:100, name:"Kwstas", pfp:'https://www.w3schools.com/images/w3schools_green.jpg', contracts: ["id4", "id493"]},
-    {id:999, name:"Dimitris", pfp:'https://www.w3schools.com/images/w3schools_green.jpg', contracts: ["id4", "id493"]},
-    {id:309, name:"Sindler", pfp:'https://www.w3schools.com/images/w3schools_green.jpg', contracts: ["id4", "id493"]},
-    {id:807, name:"Zerg", pfp:'https://www.w3schools.com/images/w3schools_green.jpg', contracts: ["id4", "id493"]},
-    {id:582, name:"Spaghetti", pfp:'https://www.w3schools.com/images/w3schools_green.jpg', contracts: ["id4", "id493"]},
-    {id:580, name:"Spari", pfp:'https://www.w3schools.com/images/w3schools_green.jpg', contracts: ["id4", "id493"]},
-    {id:581, name:"Sparilillililili", pfp:'https://www.w3schools.com/images/w3schools_green.jpg', contracts: ["id4", "id493"]},
-  ]
 
-  
 const get_user_byID = async (req, res, next) =>{
     try{
-        const sqlQuery=``
+        console.log(req.params.id)
+        const sqlQuery=`SELECT * FROM users WHERE id=${req.params.id};`
         
         const answer = await pool.query(sqlQuery, req.params.userID)
         if(answer.length){
@@ -142,6 +125,5 @@ const get_all_users = async (req, res)=>{
 
 
 module.exports={
-    get_user_byID,
-    user_create_post
+    get_user_byID
 }

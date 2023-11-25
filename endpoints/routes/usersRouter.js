@@ -8,8 +8,8 @@ router.get('/', function(req, res, next) {
 });
 
 
-router.get('/:usernameIncludes', usersController.get_user_byID);
+router.get('/:id', usersController.get_user_byID);
 
-router.post('/create', usersController.user_create_post) 
+// router.post('/create', usersController.user_create_post) 
 
 module.exports = router;
