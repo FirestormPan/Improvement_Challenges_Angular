@@ -20,23 +20,21 @@ const get_user_byID = async (req, res, next) =>{
 
 const user_post = async (req, res)=>{
     try{
-        const {id, username, fullname, roles} =req.body;
+        const {id, username, email, roles} =req.body;
         var sqlQuery='START TRANSACTION;\n';
-        if(username && fullname && id){
-            sqlQuery+=`INSERT INTO users (id, username, fullname) VALUES(${id}, "${username}", "${fullname}");\n`          
-            succes=true;
+        if(username && email){
+            if(id){
+                sqlQuery+=`INSERT INTO users (id, username, email) VALUES(${id}, "${username}", "${email}");\n`;
+            }else{
+                sqlQuery+=`INSERT INTO users (username, email) VALUES( "${username}", "${email}");\n`;
+            }
         }else{
             return res.status(400).send({message:'invalid input'})
         }
-        if(roles && id){
-            roles.forEach(role => {
-                sqlQuery+=`INSERT INTO user_roles (user_id, role_id) VALUES(${id},${role});\n`
-            });
-        }
         sqlQuery+="COMMIT;"
    
-        await pool.query(sqlQuery) //, [id,username, fullname]
-        res.status(200).send({message:'user added successfully with their roles'})
+        await pool.query(sqlQuery)
+        res.status(200).send({message:'user added successfully'})
     }catch(err){
         res.status(500).send(err.message)
     }
@@ -125,5 +123,6 @@ const get_all_users = async (req, res)=>{
 
 
 module.exports={
-    get_user_byID
+    get_user_byID,
+    user_post
 }

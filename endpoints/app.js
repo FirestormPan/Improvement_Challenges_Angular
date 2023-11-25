@@ -14,9 +14,9 @@ const app = express();
 
 app.listen(3005)
 
-// view engine setup (irrelevant)
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+// // view engine setup (irrelevant)
+// app.set('views', path.join(__dirname, 'views'));
+// app.set('view engine', 'jade');
 
 app.use(logger('dev'));
 app.use(express.json());
