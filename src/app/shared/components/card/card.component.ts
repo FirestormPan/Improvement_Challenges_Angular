@@ -18,15 +18,17 @@ export class CardComponent implements OnInit {
   constructor(private myDataService : DataService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.cardInfo.applicableTo?.forEach((id:number) => {
-      this.applicables.push(...this.myDataService.getPeopleArrayFromID(id))
-    });
-    
+
+    //get all the users on which the card can be applied on
+    this.cardInfo.applicableTo?.forEach( async (id:number) => {
+      let user = await this.myDataService.getUserbyId(id)
+      this.applicables.push(...user)
+    });   
   }
 
+  //add the display string of the users the card can be applied on
   getApplicablesString(){
     var applicablesString = '';
-
     var i=0;
     while(i<3 && this.applicables[i]){
       applicablesString += (this.applicables[i]?.name + ", ")

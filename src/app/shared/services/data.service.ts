@@ -15,21 +15,6 @@ export interface User {
 })
 export class DataService {
 
-  people = [
-    {id:7, name:"Pantelis", pfp:'https://picsum.photos/200'},
-    {id:103, name:"Aurorra", pfp:'https://www.w3schools.com/images/w3schools_green.jpg'},
-    {id:513, name:"Kosmas", pfp:'https://www.w3schools.com/images/w3schools_green.jpg'},
-    {id:105, name:"Ioanna", pfp:'https://www.w3schools.com/images/w3schools_green.jpg'},
-    {id:123, name:"Maria", pfp:'https://www.w3schools.com/images/w3schools_green.jpg'},
-    {id:100, name:"Kwstas", pfp:'https://www.w3schools.com/images/w3schools_green.jpg'},
-    {id:999, name:"Dimitris", pfp:'https://www.w3schools.com/images/w3schools_green.jpg'},
-    {id:309, name:"Sindler", pfp:'https://www.w3schools.com/images/w3schools_green.jpg'},
-    {id:807, name:"Zerg", pfp:'https://www.w3schools.com/images/w3schools_green.jpg'},
-    {id:582, name:"Spaghetti", pfp:'https://www.w3schools.com/images/w3schools_green.jpg'},
-    {id:580, name:"Spari", pfp:'https://www.w3schools.com/images/w3schools_green.jpg'},
-    {id:581, name:"Sparilillililili", pfp:'https://www.w3schools.com/images/w3schools_green.jpg'},
-  ]
-
   ourChallenges = [
     {difficulty: "red", type: 'activateable', question:'Πεσε 10 καμψεις'},
     {difficulty: "red", type: 'activateable', question:'Dance an oriental belly dance for 2 mins'},
@@ -104,9 +89,7 @@ export class DataService {
     ];
   }
 
-  // getPeopleArrayFromName(wantedName :string){
-  //   return this.people.filter(person => person.name.toLocaleLowerCase()===wantedName.toLocaleLowerCase());
-  // }
+
   async getPeopleArrayFromName(wantedName :string){ //express
 
     const contenstantInput = document.getElementById('username') as HTMLInputElement;
@@ -119,24 +102,18 @@ export class DataService {
     )
     return typeahead
   }
-
-  getPeopleArrayFromID(wantedid :number|string){
-    return this.people.filter(person => person.id===wantedid);
-  }
-
-  getPersonFromID(wantedid:number|string){
-    return this.people.find(person => person.id === wantedid)
-  }
-
   
-  //get matching users users
-  async getUserFromExpress(name:Number | String){
-   
+  // get matching users users
+  async getUserbyName(name:Number | String){
     const response = await fetch(`http://localhost:3001/users/${name}`);
     return await response.json() ?? {};
   }
 
-
+  async getUserbyId(id:Number | String){
+    const response = await fetch(`http://localhost:3001/users/${id}`);
+    return await response.json() ?? {};
+  }
+  
 
   // async getUserFromExpress(name:Number | String): Promise<User | undefined>{
 
@@ -154,7 +131,6 @@ export class DataService {
   //   //   console.log(response)
 
   //   // })
-     
   // }
 
   getFromExpressByDifficulty(color :string){

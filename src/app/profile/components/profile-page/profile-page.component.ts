@@ -11,22 +11,24 @@ import 'aos/dist/aos.css'; // Import the CSS as needed
 })
 export class ProfilePageComponent implements OnInit {
 
-  people = this.myDataservice.people;
-  logedInUser = {id:0, name:'', pfp:''};
+  logedInUser = {id:0, name:'not logged in', pfp:''};
 
  @Output() sendLogout = new EventEmitter<any>()
 
   constructor(private myDataservice: DataService) { }
 
   ngOnInit(): void {
-    
+    this.test();
     AOS.init();
 
-    let stem = this.myDataservice.getPersonFromID(7)
-     if(stem){
-      this.logedInUser =  stem
-     }
   }
 
+  async test(){
+    let stem = await this.myDataservice.getUserbyId(7)
+    if(stem){
+     this.logedInUser =  stem
+    }
+
+  }
 
 }
