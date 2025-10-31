@@ -13,10 +13,7 @@ var challengesRouter = require('./routes/challengesRouter');
 const app = express();
 
 app.listen(3005)
-
-// // view engine setup (irrelevant)
-// app.set('views', path.join(__dirname, 'views'));
-// app.set('view engine', 'jade');
+console.log("Server running on port 3005");
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -31,7 +28,8 @@ app.use(cors({
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/challenges', challengesRouter);
-// catch 404 and forward to error handler (if none of the above  were true!)
+
+// catch 404 and forward to error handler (if none of the above "use" were true)
 app.use(function(req, res, next) {
   next(createError(404));
 });
@@ -44,7 +42,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.send(err.message)
 });
-
-
 
 module.exports = app;

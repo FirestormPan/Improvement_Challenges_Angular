@@ -1,15 +1,16 @@
-CREATE DATABASE IF NOT EXISTS improvement_dares;
-USE improvement_dares;
+CREATE DATABASE IF NOT EXISTS improvementdares;
+USE improvementdares;
 
 
 CREATE TABLE IF NOT EXISTS users (
-    id int AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    id_user int AUTO_INCREMENT NOT NULL PRIMARY KEY,
     username varchar(255),
-    profile_picture varchar(255) DEFAULT "https://www.w3schools.com/images/w3schools_green.jpg",
+    hashed_password varchar(255),
+    pfp varchar(255) DEFAULT "https://www.w3schools.com/images/w3schools_green.jpg",
     email varchar(255)
 );
 
-INSERT INTO users (id, username, profile_picture, email) VALUES
+INSERT INTO users (id_user, username, pfp, email) VALUES
     (1, 'pantelos', 'Default', 'pantelos@example.com'),
     (2, 'maria', 'Default', 'maria@example.com'),
     (3, 'slavanderos', 'Default', 'slavanderos@example.com'),
