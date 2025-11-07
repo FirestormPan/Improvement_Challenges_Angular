@@ -12,10 +12,6 @@ const routes: Routes = [
     loadChildren: ()=>import('./myCards/my-cards.module').then(m => m.MyCardsModule)
   },
   {
-    path:'informatzione',
-    loadChildren: ()=>import('./informatzione/informatzione.module').then(m => m.InformatzioneModule)
-  },
-  {
     path:'contracts',
     loadChildren: ()=>import('./contracts/contracts.module').then(m => m.ContractsModule)
   },
