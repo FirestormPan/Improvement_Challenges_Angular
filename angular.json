@@ -70,10 +70,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "improvementDares:build:production"
+              "buildTarget": "improvementDares:build:production"
             },
             "development": {
-              "browserTarget": "improvementDares:build:development"
+              "buildTarget": "improvementDares:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -81,7 +81,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "improvementDares:build"
+            "buildTarget": "improvementDares:build"
           }
         },
         "test": {
