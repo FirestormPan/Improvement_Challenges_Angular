@@ -2,6 +2,17 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.3.
 
+# TODO
+- figure out how context works to set the logged in user
+- figure how angular works:
+    - what are those 4 files in each component?
+    - why is routing needed here? how does it work
+    - what goes the shared folder?
+    - what should I be putting in the services folder?
+    - how do I replace aos? is it native now?
+    - why do some folders have multiple components and also routing and modules?
+
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
