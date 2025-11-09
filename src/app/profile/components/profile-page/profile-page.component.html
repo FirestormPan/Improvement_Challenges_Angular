@@ -1,8 +1,8 @@
 
 <br>
 <section>
-   <h2> {{logedInUser.name}} </h2>
-   <img src="{{logedInUser.pfp}}" alt="profile picture">
+   <h2> Welcome {{ logedInUser.name }} </h2>
+   <img *ngIf="logedInUser" [src]="logedInUser.pfp" alt="profile picture">
 </section>
 
 <br>

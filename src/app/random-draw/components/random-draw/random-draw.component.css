@@ -8,3 +8,13 @@
     justify-content:space-around;
 }
 
+.add_place img{
+   
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    max-width: 1200px;
+    height: auto;
+    border: 2px solid black;
+    border-radius: 5px;
+}

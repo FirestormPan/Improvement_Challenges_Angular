@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { DataService } from 'src/app/shared/services/data.service';
+import { User, UserService } from 'src/app/shared/services/user.service';
 //aimations on scroll
 import * as AOS from 'aos';
 import 'aos/dist/aos.css'; // Import the CSS as needed
@@ -11,24 +11,28 @@ import 'aos/dist/aos.css'; // Import the CSS as needed
 })
 export class ProfilePageComponent implements OnInit {
 
-  logedInUser = {id:0, name:'not logged in', pfp:''};
+  logedInUser: User = {};
 
  @Output() sendLogout = new EventEmitter<any>()
 
-  constructor(private myDataservice: DataService) { }
+  constructor(private myUserService: UserService) { }
 
   ngOnInit(): void {
-    this.test();
+    // this.test();
     AOS.init();
 
   }
 
   async test(){
-    let stem = await this.myDataservice.getUserbyId(7)
+    this.myUserService.logIn('user1', 'password1');
+    let stem = this.myUserService.getloggedInUser();
     if(stem){
      this.logedInUser =  stem
     }
 
   }
 
+  isLoggedIn(){
+    return this.logedInUser != null;
+  }
 }

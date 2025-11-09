@@ -4,18 +4,34 @@ const bcrypt = require('bcryptjs');
 const get_user_by_Id = async (req, res, next) => {
     try {
         const sqlQuery = 'SELECT * FROM users WHERE id_user = ?';
-        const result = await pool.query(sqlQuery, [req.params.id]);
+        const [rows] = await pool.query(sqlQuery, [req.params.id]);
 
-        if (!result || result.length === 0) {
+        if (!rows || rows.length === 0) {
             return res.status(404).send({ message: "user not found" });
         }
         
-        return res.status(200).json(result[0]);
+        return res.status(200).json(rows[0]);
     } catch (err) {
         console.error('Error:', err);
         return res.status(500).send('Internal server error');
     }
 }
+
+const get_user_by_name = async (req, res, next) => {
+  try {
+    const sqlQuery = 'SELECT * FROM users WHERE username = ?';
+    const [rows] = await pool.query(sqlQuery, [req.params.name]);
+
+    if (!rows.length) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    return res.status(200).json(rows[0]);
+  } catch (err) {
+    console.error('Error:', err);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+};
 
 // creates a new user. pfp is not included for now. User can add it later via patch.
 const user_post = async (req, res)=>{
@@ -37,7 +53,7 @@ const user_post = async (req, res)=>{
         }
 
         //hash the password before storing it
-        const salt = bcrypt.genSaltSync(2);
+        const salt = bcrypt.genSaltSync(5);
         const hashedPassword = bcrypt.hashSync(password, salt);
 
         var sqlQuery = id
@@ -47,7 +63,7 @@ const user_post = async (req, res)=>{
         
         await pool.query(sqlQuery, params)
 
-        res.status(200).send({message:'user added successfully'})
+        res.status(201).send({message:'user added successfully'})
     }catch(err){
         res.status(500).send(err.message)
     }
@@ -107,31 +123,87 @@ const user_delete = async (req, res)=>{
 const authenticate_user = async (req, res) => {
     const { username, password } = req.body;
     try {
-        const sqlQuery = 'SELECT * FROM users WHERE username = ?';
-        const [rows] = await pool.query(sqlQuery, [username]); // destructure
-        if (rows.length === 0) {
-            return res.status(404).send({ message: 'User not found' });
-        }
+        let user = await verifyUserCredentials(username, password);
 
-        const user = rows[0];
+        if(!user) throw new Error('user credentials did not match')
 
-        const isPasswordValid = bcrypt.compareSync(password, user.hashed_password);
-
-        // Return authentication result. later we can expand this to return a token or user info
-        return res.status(200).json({ authenticated: isPasswordValid });
+        // Return user info. later we can learn about returning a token 
+        return res.status(200).json(user);
     } catch (err) {
         console.error('Error during authentication:', err);
         return res.status(500).send({ message: 'Internal server error' });
     }
 };
 
+const changePassword = async (req, res) =>{
+    const { username, password, newPassword } = req.body;
+
+    try{
+    // check the old password before changing it
+    let user = await verifyUserCredentials(username, password)
+    if(!user) return res.status(401).send({ message: 'Incorrect current password' });
+
+    //hash the new password before storing it
+    const salt = bcrypt.genSaltSync(5);
+    const newHashedPassword = bcrypt.hashSync(newPassword, salt);
+
+    var sqlQuery= 'UPDATE users SET hashed_password = ? WHERE username = ? ;'
+
+    await pool.query(sqlQuery, [ newHashedPassword, username]) 
+    res.status(200).send({message: `update successfull`})
+
+    } catch(err){
+        res.status(500).send({ message: 'Internal server error' });
+    }
+}
+
+//todo check seperately for email and name  
+const check_availability = async (req, res) => {
+  const { username, email } = req.query;
+  try {
+    const [rows] = await pool.query(
+      'SELECT username, email FROM users WHERE username = ? OR email = ?',
+      [username, email]
+    );
+    if (rows.length > 0)
+      return res.status(409).send({ message: 'Username or email already exists' });
+
+    res.status(200).send({ available: true });
+  } catch (err) {
+    res.status(500).send({ message: 'Internal server error' });
+  }
+};
+
+
+
+//HELPER FUNCTIONS
+
+/**
+ * Checks the database for matching password and username
+ * @param {*} username 
+ * @param {*} password 
+ * @returns the user object or null
+ */
+const verifyUserCredentials = async (username, password) => {
+  const sqlQuery = 'SELECT * FROM users WHERE username = ?';
+  const [rows] = await pool.query(sqlQuery, [username]);
+  if (rows.length === 0) return null;
+
+  const user = rows[0];
+  const isPasswordValid = bcrypt.compareSync(password, user.hashed_password);
+
+  return isPasswordValid ? user : null;
+};
+
 
 
 module.exports={
     get_user_by_Id,
+    get_user_by_name,
     // user_put,
     user_patch,
     user_post,
     user_delete,
-    authenticate_user
+    authenticate_user,
+    changePassword
 }

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-login-popup',
@@ -6,12 +7,27 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./login-popup.component.css']
 })
 export class LoginPopupComponent implements OnInit {
+  @Output() close = new EventEmitter<void>();
 
-  constructor() { }
+  username: string = '';
+  password: string = '';
+  remember: boolean = false;
+
+  constructor(public userService: UserService) { }
 
   ngOnInit(): void {
   }
 
+  login(): void {
+    this.userService.logIn(this.username, this.password);
+    // this.close.emit(); // Close after successful login
+  }
+
+  closeModal(): void {
+    this.close.emit();
+  }
+
+  // Keeping this commented code for reference
   // closeOnOutClick():void{
   //   var modal = document.getElementById('id01');
   //   // When the user clicks anywhere outside of the modal, close it
@@ -21,11 +37,4 @@ export class LoginPopupComponent implements OnInit {
   //       }
   //   }
   // }
-
-
-
-
-
-
-
 }

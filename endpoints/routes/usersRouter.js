@@ -13,6 +13,7 @@ router.post('/', usersController.user_post);
 router.patch('/:id', usersController.user_patch);
 router.delete('/:id', usersController.user_delete)
 router.post('/auth/', usersController.authenticate_user)
+router.post('/forgotPassword/', usersController.changePassword)
 
 
 module.exports = router;

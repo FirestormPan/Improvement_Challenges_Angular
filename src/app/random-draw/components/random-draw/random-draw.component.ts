@@ -37,10 +37,10 @@ export class DrawRandomDareComponent implements OnInit {
   constructor(private dataservice: DataService) { }
 
   ngOnInit(): void {
-    this.expressiona();    
+    this.loadSampleFromExpress();    
   }
 
-  expressiona():void{
+  loadSampleFromExpress():void{
     let observable : Observable<any> = this.dataservice.getFromExpressByDifficulty('green')
     observable.subscribe(this.ExpressObserver)
     

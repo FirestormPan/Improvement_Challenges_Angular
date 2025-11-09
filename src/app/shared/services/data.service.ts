@@ -4,12 +4,6 @@ import { Observable, fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
 import { ajax } from 'rxjs/ajax';
 
-export interface User {
-  id: number | string;
-  name: string;
-  pfp: string;
-  contracts: string[];
-}
 @Injectable({
   providedIn: 'root'
 })
@@ -19,7 +13,7 @@ export class DataService {
     {difficulty: "red", type: 'activateable', question:'Πεσε 10 καμψεις'},
     {difficulty: "red", type: 'activateable', question:'Dance an oriental belly dance for 2 mins'},
     {difficulty: "red", type: 'activateable', question:'Sing Afrika by Shakira song'},
-    {difficulty: "red", type: 'activateable', question:'Πεσε 10 καμψεις'},
+    {difficulty: "red", type: 'activateable', question:"Become the winner's(or a random group member's) bard for 15mins. You have to sing/narrate their actions in a heroic way."},
     {difficulty: "red", type: 'activateable', question:'Πεσε 10 καμψεις'},
     {difficulty: "red", type: 'activateable', question:'Πεσε 10 καμψεις'},
     {difficulty: "red", type: 'activateable', question:'Πεσε 10 καμψεις'},
