@@ -1,8 +1,8 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { User, UserService } from 'src/app/shared/services/user.service';
 //aimations on scroll
-import * as AOS from 'aos';
-import 'aos/dist/aos.css'; // Import the CSS as needed
+// import * as AOS from 'aos';
+// import 'aos/dist/aos.css'; // Import the CSS as needed
 
 @Component({
   selector: 'app-profile-page',
@@ -19,7 +19,7 @@ export class ProfilePageComponent implements OnInit {
 
   ngOnInit(): void {
     // this.test();
-    AOS.init();
+    // AOS.init();
 
   }
 

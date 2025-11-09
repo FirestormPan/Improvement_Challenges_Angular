@@ -48,7 +48,6 @@ export class UserService {
     // });
   }
 
-
   setloggedInUser(user: any) {
     this.loggedInUser = user;
   }
