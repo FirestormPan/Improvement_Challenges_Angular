@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Observable } from 'rxjs';
 import { User, UserService } from 'src/app/shared/services/user.service';
 //aimations on scroll
 // import * as AOS from 'aos';
@@ -11,28 +12,17 @@ import { User, UserService } from 'src/app/shared/services/user.service';
 })
 export class ProfilePageComponent implements OnInit {
 
-  logedInUser: User = {};
+  logedInUser$: Observable<User | null>;
+
 
  @Output() sendLogout = new EventEmitter<any>()
 
-  constructor(private myUserService: UserService) { }
+  constructor(private myUserService: UserService) {
+    this.logedInUser$ = this.myUserService.loggedInUser$;
+   }
 
   ngOnInit(): void {
-    // this.test();
     // AOS.init();
-
   }
 
-  async test(){
-    this.myUserService.logIn('user1', 'password1');
-    let stem = this.myUserService.getloggedInUser();
-    if(stem){
-     this.logedInUser =  stem
-    }
-
-  }
-
-  isLoggedIn(){
-    return this.logedInUser != null;
-  }
 }

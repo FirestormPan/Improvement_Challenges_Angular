@@ -17,24 +17,14 @@ export class LoginPopupComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
-  login(): void {
-    this.userService.logIn(this.username, this.password);
-    // this.close.emit(); // Close after successful login
-  }
-
+  
   closeModal(): void {
     this.close.emit();
   }
 
-  // Keeping this commented code for reference
-  // closeOnOutClick():void{
-  //   var modal = document.getElementById('id01');
-  //   // When the user clicks anywhere outside of the modal, close it
-  //   window.onclick = function(event) {
-  //       if (event.target == modal) {
-  //           modal.style.display = "none";
-  //       }
-  //   }
-  // }
+  login(): void {
+    this.userService.logIn(this.username, this.password);
+    this.close.emit(); // Close after login (TODO: should I check if login was successful first?)
+  }
+
 }

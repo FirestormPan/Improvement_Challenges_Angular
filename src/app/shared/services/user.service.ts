@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 export interface User {
   id?: number | string;
@@ -11,19 +12,19 @@ export interface User {
   providedIn: 'root'
 })
 export class UserService {
-
   constructor() { }
 
-  private loggedInUser = null;
-
-
-  getloggedInUser() {
-    return this.loggedInUser;
-  }
+  // private property to hold the logged-in user. Initiallizes as Null(=not logged in)
+  private readonly _userSubject = new BehaviorSubject<User | null>(null);
+  // public, read-only Observable for consumers
+  readonly loggedInUser$: Observable<User | null> = this._userSubject.asObservable();
 
   logIn(username: string, password: string) {
     //todo replace with the commented fetch code to connect to backend
-    this.setloggedInUser(username);
+    let fakeUser: User = { id: 1, name: username };
+    let fakeUserWithPfp: User = { id: 1, name: username, pfp: "moo-ga.jpg" };
+    this._userSubject.next(fakeUser);
+
     // let url = 'http://localhost:3005/users/auth';
     // fetch(url , {
     //   method: 'POST',
@@ -48,13 +49,17 @@ export class UserService {
     // });
   }
 
-  setloggedInUser(user: any) {
-    this.loggedInUser = user;
+
+  getloggedInUser(): User | null  {
+    return this._userSubject.getValue();
   }
+
 
   isLoggedIn(): boolean {
-    return this.loggedInUser != null;
+    return this.getloggedInUser() != null;
   }
 
-
+  logOut() {
+    this._userSubject.next(null);
+  }
 }

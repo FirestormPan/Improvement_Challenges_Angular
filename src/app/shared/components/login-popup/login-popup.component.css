@@ -31,18 +31,6 @@ input[type=text], input[type=password] {
     background-color: #f44336;
   }
   
-  /* Center the image and position the close button */
-  .imgcontainer {
-    text-align: center;
-    margin: 24px 0 12px 0;
-    position: relative;
-  }
-  
-  img.avatar {
-    width: 40%;
-    border-radius: 50%;
-  }
-  
   .container {
     padding: 16px;
   }
@@ -79,10 +67,10 @@ input[type=text], input[type=password] {
   /* The Close Button (x) */
   .close {
     position: absolute;
-    right: 25px;
-    top: 0;
+    right: 20px;
+    top: 10px;
     color: #000;
-    font-size: 35px;
+    font-size: 40px;
     font-weight: bold;
   }
   

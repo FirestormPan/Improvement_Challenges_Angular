@@ -1,10 +1,40 @@
 
 <br>
-<section>
-   <h2> Welcome {{ logedInUser.name }} </h2>
-   <img *ngIf="logedInUser" [src]="logedInUser.pfp" alt="profile picture">
+<section *ngIf="logedInUser$ | async as user; else guestTemplate">
+   <h2>Welcome {{ user.name }}</h2>
+   <img *ngIf="user.pfp" [src]="user.pfp" alt="profile picture">
 </section>
 
+<ng-template #guestTemplate>
+   <h2>Welcome Guest</h2>
+</ng-template>
+
+<br>
+<br>
+<br>
+<app-testing-grounds></app-testing-grounds>
+
+<!-- <div data-aos="fade-left"> but not working now-->
+<div>
+   Welcome to your profile. On the right, lies a navigation menu.
+   See your current cards or create new ones
+    Click on "Draw Random" to play "Truth or Dare"
+</div>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div>
+   Welcome to your profile. On the right, lies a navigation menu.
+   See your current cards or create new ones
+    Click on "Draw Random" to play "Truth or Dare"
+</div>
+<br>
+<br>
+<br>
 <br>
 <br>
 <br>
@@ -14,14 +44,6 @@
    See your current cards or create new ones
     Click on "Draw Random" to play "Truth or Dare"
 </div>
-
-
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
 <br>
 <br>
 <br>
@@ -29,8 +51,7 @@
 <br>
 <br>
 
-<!-- <div data-aos="fade-left"> -->
-   <div>
+<div>
    Welcome to your profile. On the right, lies a navigation menu.
    See your current cards or create new ones
     Click on "Draw Random" to play "Truth or Dare"

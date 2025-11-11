@@ -1,10 +1,9 @@
 <div class="modal">
   <form class="modal-content animate" (ngSubmit)="login()" #loginForm="ngForm">
     <span *ngIf="userService.isLoggedIn">Hello, {{ userService.getloggedInUser()}}! </span>
-    <div class="imgcontainer">
-      <span (click)="closeModal()" class="close" title="Close Modal">&times;</span>
-      <img src="img_avatar2.png" alt="Avatar" class="avatar" />
-    </div>
+    
+    <span (click)="closeModal()" class="close" title="Close Modal">&times;</span>
+     
 
     <div class="container">
       <label for="uname"><b>Username</b></label>

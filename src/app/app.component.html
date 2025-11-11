@@ -1,6 +1,7 @@
-<button class="login-button" (click)="toggleLoginPopup()">
+<button class="login-button" (click)="userService.isLoggedIn() ? userService.logOut() : toggleLoginPopup()">
   {{ userService.isLoggedIn() ? 'Logout' : 'Login' }}
 </button>
+
 
 <h1 class="mainTitle">Improvemet Challenges</h1>
 
@@ -11,7 +12,7 @@
     </div>
     <div class="col-sm">
       <div>
-        <app-login-popup *ngIf="showLoginPopup" (close)="showLoginPopup = false"></app-login-popup>
+        <app-login-popup *ngIf="showLoginPopup" (close)="showLoginPopup=false"></app-login-popup>
         <router-outlet></router-outlet>
       </div>
     </div>
