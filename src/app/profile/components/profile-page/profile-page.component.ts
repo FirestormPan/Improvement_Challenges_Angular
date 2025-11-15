@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User, UserService } from 'src/app/shared/services/user.service';
+import { LoginModalService } from 'src/app/shared/services/login-modal.service';
 //aimations on scroll
 // import * as AOS from 'aos';
 // import 'aos/dist/aos.css'; // Import the CSS as needed
@@ -15,14 +16,20 @@ export class ProfilePageComponent implements OnInit {
   logedInUser$: Observable<User | null>;
 
 
- @Output() sendLogout = new EventEmitter<any>()
+  @Output() sendLogout = new EventEmitter<any>()
 
-  constructor(private myUserService: UserService) {
+  constructor(private myUserService: UserService, public loginModal: LoginModalService) {
     this.logedInUser$ = this.myUserService.loggedInUser$;
    }
 
   ngOnInit(): void {
     // AOS.init();
   }
+
+  toggleLoginPopup(mode: 'login' | 'register'): void {
+    this.loginModal.setMode(mode);
+    this.loginModal.open();
+  }
+
 
 }

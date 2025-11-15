@@ -36,7 +36,7 @@ const get_user_by_name = async (req, res, next) => {
 // creates a new user. pfp is not included for now. User can add it later via patch.
 const user_post = async (req, res)=>{
     try{
-        const {id, username, email, password, roles} = req.body;
+        const {id, username, email, password} = req.body;
 
        // Input validation
         if (!username || typeof username !== 'string' || username.length > 50) {

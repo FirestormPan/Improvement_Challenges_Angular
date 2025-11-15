@@ -1,12 +1,17 @@
 
 <br>
 <section *ngIf="logedInUser$ | async as user; else guestTemplate">
-   <h2>Welcome {{ user.name }}</h2>
+   <h2>Welcome {{ user.username }}</h2>
    <img *ngIf="user.pfp" [src]="user.pfp" alt="profile picture">
 </section>
 
 <ng-template #guestTemplate>
    <h2>Welcome Guest</h2>
+   <p>
+     Please <b style="color: rgb(142, 127, 255);cursor: pointer;" (click)="toggleLoginPopup('login')">Login</b> to access your contracts and more.
+     <br>
+     Or if you don't have an account, please <b style="color: rgb(142, 127, 255);cursor: pointer;" (click)="toggleLoginPopup('register')">Register</b> .
+   </p>
 </ng-template>
 
 <br>

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { UserService } from './shared/services/user.service';
+import { LoginModalService } from './shared/services/login-modal.service';
 
 @Component({
   selector: 'app-root',
@@ -7,11 +8,11 @@ import { UserService } from './shared/services/user.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  showLoginPopup = false;
 
-  constructor(public userService: UserService) {}
+  constructor(public userService: UserService, public loginModal: LoginModalService) {}
 
-  toggleLoginPopup(): void {
-    this.showLoginPopup = !this.showLoginPopup;
+  toggleLoginPopup(mode: 'login' | 'register'): void {
+    this.loginModal.setMode(mode);
+    this.loginModal.toggle();
   }
 }

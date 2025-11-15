@@ -1,11 +1,12 @@
 <div class="modal">
-  <form class="modal-content animate" (ngSubmit)="login()" #loginForm="ngForm">
-    <span *ngIf="userService.isLoggedIn">Hello, {{ userService.getloggedInUser()}}! </span>
+  <!-- Login Form -->
+  <form class="modal-content animate" *ngIf="isLoginMode" (ngSubmit)="login()" #loginForm="ngForm">
     
     <span (click)="closeModal()" class="close" title="Close Modal">&times;</span>
      
-
     <div class="container">
+      <h2>Login</h2>
+      
       <label for="uname"><b>Username</b></label>
       <input
         type="text"
@@ -26,7 +27,7 @@
         required
       />
 
-      <button type="submit" [disabled]="!loginForm.valid">Login</button>
+      <button id="submitLoginButton" type="submit" [disabled]="!loginForm.valid">Login</button>
       <label>
         <input type="checkbox" [(ngModel)]="remember" name="remember" />
         Remember me
@@ -36,6 +37,69 @@
     <div class="container" style="background-color:#f1f1f1">
       <button type="button" (click)="closeModal()" class="cancelbtn">Cancel</button>
       <span class="psw">Forgot <a href="#">password?</a></span>
+    </div>
+
+    <div class="container toggle-container">
+      <p>Don't have an account? <button type="button" class="toggle-btn" (click)="toggleMode()">Sign Up</button></p>
+    </div>
+  </form>
+
+  <!-- Register Form -->
+  <form class="modal-content animate" *ngIf="!isLoginMode" (ngSubmit)="register()" #registerForm="ngForm">
+    <span (click)="closeModal()" class="close" title="Close Modal">&times;</span>
+    
+    <div class="container">
+      <h2>Create Account</h2>
+      
+      <label for="reg-username"><b>Username</b></label>
+      <input
+        type="text"
+        id="reg-username"
+        placeholder="Choose Username"
+        name="reg-username"
+        [(ngModel)]="registerUsername"
+        required
+      />
+
+      <label for="reg-email"><b>Email</b></label>
+      <input
+        type="email"
+        id="reg-email"
+        placeholder="Enter Email"
+        name="reg-email"
+        [(ngModel)]="registerEmail"
+        required
+      />
+
+      <label for="reg-psw"><b>Password</b></label>
+      <input
+        type="password"
+        id="reg-psw"
+        placeholder="Enter Password"
+        name="reg-psw"
+        [(ngModel)]="registerPassword"
+        required
+      />
+
+      <label for="reg-confirm-psw"><b>Confirm Password</b></label>
+      <input
+        type="password"
+        id="reg-confirm-psw"
+        placeholder="Confirm Password"
+        name="reg-confirm-psw"
+        [(ngModel)]="registerConfirmPassword"
+        required
+      />
+
+      <button type="submit" [disabled]="!registerForm.valid || isSubmitting">{{ isSubmitting ? 'Signing up...' : 'Sign Up' }}</button>
+    </div>
+
+    <div class="container" style="background-color:#f1f1f1">
+      <button type="button" (click)="closeModal()" class="cancelbtn">Cancel</button>
+    </div>
+
+    <div class="container toggle-container">
+      <p>Already have an account? <button type="button" class="toggle-btn" (click)="toggleMode()" [disabled]="isSubmitting">Login</button></p>
     </div>
   </form>
 </div>
