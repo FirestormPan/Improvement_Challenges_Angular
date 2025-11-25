@@ -34,14 +34,13 @@ exports.createUser = async ({ id, username, email, password }) => {
 
   // Prepare query
   const sql = id
-    ? 'INSERT INTO users (id_user, username, hashed_password, email) VALUES (?, ?, ?, ?)'
+    ? 'INSERT INTO users (id, username, hashed_password, email) VALUES (?, ?, ?, ?)'
     : 'INSERT INTO users (username, hashed_password, email) VALUES (?, ?, ?)';
 
   const params = id
     ? [id, username, hashedPassword, email]
     : [username, hashedPassword, email];
 
-  // Execute insert
   await pool.query(sql, params);
 };
 
@@ -64,14 +63,14 @@ exports.changePassword = async (username, newPassword) => {
 
 
 exports.usernameExists = async (username) => {
-  const sql = `SELECT id_user FROM users WHERE username = ? LIMIT 1`;
+  const sql = `SELECT id FROM users WHERE username = ? LIMIT 1`;
   const [rows] = await pool.query(sql, [username]);
   return rows.length > 0;
 };
 
 // Check if an email exists
 exports.emailExists = async (email) => {
-  const sql = `SELECT id_user FROM users WHERE email = ? LIMIT 1`;
+  const sql = `SELECT id FROM users WHERE email = ? LIMIT 1`;
   const [rows] = await pool.query(sql, [email]);
   return rows.length > 0;
 };

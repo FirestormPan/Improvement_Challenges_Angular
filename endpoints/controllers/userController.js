@@ -77,25 +77,16 @@ const createUser =  async (req, res) => {
 
 //If the user exists they will be changed to match the new values. Also the roles are updated.
 const user_patch = async (req, res)=>{
-    try{
-        var values4update = req.body;
-        delete values4update.roles;
+  try{
+    var values4update = req.body;
 
-        var sqlQuery= 'UPDATE users SET ? WHERE id_user = ? ;'
-       
-        // if(roles){ //instructions said overwrite, so I delete everything and then add new roles
-        //     sqlQuery+=`DELETE FROM user_roles WHERE user_id=${req.params.userID};`
-        //     //and now isnert the new roles
-        //     id = newid ? newid : req.params.userID;
-        //     roles.forEach(role => {
-        //         sqlQuery+=`INSERT INTO user_roles (user_id, role_id) VALUES(${id},${role});\n`
-        //     });
-        // }
-        await pool.query(sqlQuery, [ values4update, req.params.id]) //leitourgei giati mysql2 can automatically convert objects into key = value pairs safely.
-        res.status(200).send({message: `update successfull`})
-    }catch(err){
-        res.status(500).send(err.message)
-    }
+    var sqlQuery= 'UPDATE users SET ? WHERE id = ? ;'
+    await pool.query(sqlQuery, [ values4update, req.params.id]) //leitourgei giati mysql2 can automatically convert objects into key = value pairs safely.
+
+    res.status(200).send({message: `update successfull`})
+  }catch(err){
+    res.status(500).send(err.message)
+  }
 }
 
 const deleteUserByUsername = async (req, res) => {
@@ -133,7 +124,7 @@ const authenticate_user = async (req, res) => {
         return res.status(200).json(user);
     } catch (err) {
         console.error('Error during authentication:', err);
-        return res.status(500).send({ message: 'Internal server error' });
+        return res.status(401).send({ message: err.message });
     }
 };
 

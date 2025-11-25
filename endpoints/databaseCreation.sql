@@ -32,11 +32,13 @@ select * from users;
 
 CREATE TABLE IF NOT EXISTS contracts (
     id int AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    contract_name varchar(255),
+    contract_name varchar(100),
+    description varchar(255),
     color varchar(50)
 );
 
-INSERT INTO contracts VALUES (1, 'initial contract', "yellow");
+
+INSERT INTO contracts VALUES (1, 'initial contract', "this is the first contract", "yellow");
 select * from contracts;
 
 
