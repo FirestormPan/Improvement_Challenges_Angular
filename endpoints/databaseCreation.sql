@@ -1,16 +1,16 @@
 CREATE DATABASE IF NOT EXISTS improvementdares;
 USE improvementdares;
 
-
 CREATE TABLE IF NOT EXISTS users (
-    id_user int AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    id int AUTO_INCREMENT NOT NULL PRIMARY KEY,
     username varchar(255),
     hashed_password varchar(255),
     pfp varchar(255) DEFAULT "https://www.w3schools.com/images/w3schools_green.jpg",
     email varchar(255)
 );
 
-INSERT INTO users (id_user, username, pfp, email) VALUES
+
+INSERT INTO users (id, username, pfp, email) VALUES
     (1, 'pantelos', 'Default', 'pantelos@example.com'),
     (2, 'maria', 'Default', 'maria@example.com'),
     (3, 'slavanderos', 'Default', 'slavanderos@example.com'),
@@ -28,23 +28,37 @@ INSERT INTO users (id_user, username, pfp, email) VALUES
     (580, 'Spari', 'https://www.w3schools.com/images/w3schools_green.jpg', 'spari@example.com'),
     (581, 'Sparilillililili', 'https://www.w3schools.com/images/w3schools_green.jpg', 'sparilillililili@example.com');
 
+select * from users;
 
 CREATE TABLE IF NOT EXISTS contracts (
     id int AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    username varchar(255)
+    contract_name varchar(255),
+    color varchar(50)
 );
+
+INSERT INTO contracts VALUES (1, 'initial contract', "yellow");
+select * from contracts;
+
 
 CREATE TABLE IF NOT EXISTS user_contracts (
-    CONSTRAINT user_contracts_assignes PRIMARY KEY (user_id, contract_id),
     user_id INT NOT NULL,
-    CONSTRAINT `user_constraint`
-    FOREIGN KEY (user_id) REFERENCES users (id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
     contract_id INT NOT NULL,
-    CONSTRAINT `contract_constraint`
-    FOREIGN KEY (contract_id) REFERENCES contracts (id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE
 
+    PRIMARY KEY (user_id, contract_id),
+
+    CONSTRAINT fk_user
+        FOREIGN KEY (user_id)
+        REFERENCES users(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+
+    CONSTRAINT fk_contract
+        FOREIGN KEY (contract_id)
+        REFERENCES contracts(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
 );
+
+INSERT INTO USER_CONTRACTS VALUES (1,1);
+INSERT INTO USER_CONTRACTS VALUES (1,2);
+select * from USER_CONTRACTS;
