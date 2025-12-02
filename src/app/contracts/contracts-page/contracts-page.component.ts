@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, switchMap } from 'rxjs';
+import { Observable, switchMap, combineLatest, of } from 'rxjs';
 import { User, UserService } from 'src/app/shared/services/user.service';
+import { DataService } from 'src/app/shared/services/data.service';
 
 @Component({
   selector: 'app-contracts-page',
@@ -8,69 +9,44 @@ import { User, UserService } from 'src/app/shared/services/user.service';
   styleUrls: ['./contracts-page.component.css']
 })
 export class ContractsPageComponent implements OnInit {
+  readonly loggedInUser$: Observable<User | null>;
+  readonly userContracts$: Observable<Array<any>>;
 
-  //kanonika 8a erxontai diafora apo ton server, epita apo klhsh
-  userPendingContracts = [
-    {
-      id:90,
-      title:"  a title",
-      description:"Whoever does a backflip wins",
-      participants:[{name:'seratonin'}, {name:"Kwstakhs"}],
-      challengeLevel:"red"
-    },
-    {
-      id:23,
-      title:"  a title",
-      description:"Whoever does a backflip wins",
-      participants:[{name:'seratonin'}, {name:"sally"}],
-      dueDate:"22-10-99",
-      challengeLevel:"red"
-    },
-    {
-      id:90,
-      title:"  a title",
-      description:"Whoever does a backflip wins",
-      participants:[{name:'seratonin'}, {name:"Iakinthos"}],
-      challengeLevel:"red"
-    },
-    {
-      id:21,
-      title:"a title",
-      description:"Whoever does a backflip wins",
-      participants:[{name:'alessa'}, {name:"Kosmas"}],
-      dueDate:"22-10-99",
-      challengeLevel:"red"
-    },
-    {
-      id:22,
-      title:"Title",
-      description:"Whoever raids a goblin village first, wins",
-      participants:[{name:'alessandro'}, {name:"Peter"}, {name:"Franko"}, {name:"Millan"},],
-      dueDate:"22-10-99",
-      challengeLevel:"yellow"
-    },
-  ];
-
-  loggedInUser$ : Observable<User | null>;
-  userContracts$!: Observable<Array<any>>;
-
-  constructor(private myUserService: UserService) {
+  constructor(private myUserService: UserService, private dataService: DataService) {
     this.loggedInUser$ = this.myUserService.loggedInUser$;
-  }
 
-  ngOnInit(): void {
-  this.userContracts$ = this.loggedInUser$.pipe(
-      switchMap(user => this.myUserService.getUserContracts())
+    this.userContracts$ = this.loggedInUser$.pipe(
+      switchMap(user => {
+        if (!user) return of([] as any[]); // explicitly type empty array
+
+        return this.myUserService.getUserContracts().pipe(
+          switchMap((contracts: any[]) => {
+            if (!contracts || contracts.length === 0) return of([] as any[]);
+
+            // combineLatest returns Observable<any[]>
+            return combineLatest(
+              contracts.map(contract =>
+                this.dataService.getContractWithUsers(contract.id) as Observable<any>
+              )
+            );
+          })
+        );
+      })
     );
+
   }
 
-  addContract(contractObject:any){
-    console.log(contractObject)
-    this.userPendingContracts.push(contractObject)
+  ngOnInit(): void {}
+
+  addContract(contractObject: any): void {
+    // TODO: Call service to persist to database
+    // After successful creation, userContracts$ will auto-update via switchMap
+    console.log('Adding contract:', contractObject);
   }
 
-  removeContract(id:number){
-  this.userPendingContracts.splice(this.userPendingContracts.findIndex(item => item.id === id), 1)
+  removeContract(id: number): void {
+    // TODO: Call service to delete from database
+    // After successful deletion, userContracts$ will auto-update
+    console.log('Removing contract:', id);
   }
-
 }

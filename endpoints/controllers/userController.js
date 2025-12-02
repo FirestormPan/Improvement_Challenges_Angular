@@ -2,6 +2,7 @@ const pool = require('../helpers/connectMySQL');
 const bcrypt = require('bcryptjs');
 const userService = require('../services/userService');
 
+
 const getUserById = async (req, res) => {
   try {
     const id = req.params.id;
@@ -73,7 +74,6 @@ const createUser =  async (req, res) => {
     return res.status(500).json({ message: 'Internal server error' });
   }
 };
-
 
 //If the user exists they will be changed to match the new values. Also the roles are updated.
 const user_patch = async (req, res)=>{
@@ -193,14 +193,30 @@ const checkAvailability = async (req, res) => {
   }
 };
 
+const uploadPfp = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: "No file uploaded" });
+    }
+    const filePath = `/uploads/${req.file.filename}`;
+    await userService.uploadPfp(req.body.userId, filePath);
+    return res.json({
+      success: true,
+      url: filePath
+    });
+
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: "Upload failed" });
+  }
+};
 
 const getUserContracts = async (req, res) => {
-    const {name} = req.body;
-    const user = await userService.getUserByName(name);
+  const {name} = req.body;
+  const user = await userService.getUserByName(name);
   if (!user) {
     return res.status(404).json({ error: "User not found" });
   }
-
   const contracts = await userService.getUserContracts(user.id);
   res.json(contracts);
 };
@@ -216,7 +232,7 @@ const getUserContracts = async (req, res) => {
  * @returns the user object or null
  */
 const verifyUserCredentials = async (username, password) => {
-  const user = await userService.getUserByUsername(username);
+  const user = await userService.getUserByName(username);
   if (!user) return null;
   const isPasswordValid = bcrypt.compareSync(password, user.hashed_password);
   return isPasswordValid ? user : null;
@@ -232,5 +248,6 @@ module.exports={
     authenticate_user,
     changePassword,
     getUserContracts,
-    checkAvailability
+    checkAvailability,
+    uploadPfp
 }

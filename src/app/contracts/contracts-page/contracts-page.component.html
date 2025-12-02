@@ -12,8 +12,6 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="col-sm-4" *ngFor="let contract of userPendingContracts; let i =index">
-        <app-contract-pending [contractInfo]="userPendingContracts[i]" (deleteContractEmitter)="removeContract($event)"></app-contract-pending>
-    </div>
-</div>
+
+<div *ngIf="!(loggedInUser$ | async)">
+    <p>Please log in to view and manage your contracts.</p> 

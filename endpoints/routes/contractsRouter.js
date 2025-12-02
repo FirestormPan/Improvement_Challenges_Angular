@@ -7,9 +7,8 @@ res.send('respond with a resource');
 });
 
 
-router.get('/:id', contractsController.getContractById);
 router.post('/', contractsController.createContract);
 router.delete('/:id', contractsController.deleteContract);
-// router.post("/usersContracts", contractsController.get_users_contracts);
+router.get('/:id', contractsController.getContractWithUsers);
 
 module.exports = router;

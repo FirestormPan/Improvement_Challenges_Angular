@@ -74,3 +74,9 @@ exports.emailExists = async (email) => {
   const [rows] = await pool.query(sql, [email]);
   return rows.length > 0;
 };
+
+exports.uploadPfp = async (userId, filePath) => {
+  const sql = 'UPDATE users SET pfp = ? WHERE id = ?';
+  console.log(userId, filePath)
+  await pool.query(sql, [filePath, userId]);
+}

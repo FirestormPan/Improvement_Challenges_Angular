@@ -6,9 +6,8 @@
 
       <dl>
         <dt>Participants:</dt>
-        <li *ngFor="let participant of contractInfo.participants">{{participant.name}}</li>
+        <li *ngFor="let participant of contractInfo.participants">{{participant}}</li>
       </dl>
-      <h5>{{contractInfo.challengeLevel}}</h5>
       <h5>{{contractInfo.color}}</h5>
       <p *ngIf="contractInfo.dueDate" class="card-text"><small class="text-muted">Expires On: {{contractInfo.dueDate}}</small></p>
     </div>

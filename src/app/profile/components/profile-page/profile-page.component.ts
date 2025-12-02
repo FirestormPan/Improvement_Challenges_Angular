@@ -14,16 +14,15 @@ import { LoginModalService } from 'src/app/shared/services/login-modal.service';
 export class ProfilePageComponent implements OnInit {
 
   logedInUser$: Observable<User | null>;
-
+  selectedFile: File | null = null;
 
   @Output() sendLogout = new EventEmitter<any>()
 
-  constructor(private myUserService: UserService, public loginModal: LoginModalService) {
-    this.logedInUser$ = this.myUserService.loggedInUser$;
+  constructor(private userService: UserService, public loginModal: LoginModalService) {
+    this.logedInUser$ = this.userService.loggedInUser$;
    }
 
   ngOnInit(): void {
-    // AOS.init();
   }
 
   toggleLoginPopup(mode: 'login' | 'register'): void {
@@ -31,5 +30,22 @@ export class ProfilePageComponent implements OnInit {
     this.loginModal.open();
   }
 
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0];
+  }
+
+  uploadPfp() {
+    if (!this.selectedFile) {
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('avatar', this.selectedFile);
+
+    this.userService.uploadProfilePicture(this.selectedFile).subscribe({
+      next: (res) => console.log('Uploaded:', res),
+      error: (err) => console.error(err)
+    });
+  }
 
 }

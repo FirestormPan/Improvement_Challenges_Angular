@@ -9,9 +9,17 @@
 # Node
 /node_modules
 /endpoints/node_modules
-/tests/node_modules
 npm-debug.log
 yarn-error.log
+
+# Server pictures
+/endpoints/uploads/
+
+#Testing stuff
+/tests
+/src/app/testing-grounds
+
+
 
 # IDEs and editors
 .idea/

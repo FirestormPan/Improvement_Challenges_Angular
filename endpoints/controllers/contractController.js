@@ -1,24 +1,5 @@
 const contractService = require('../services/contractService');
 
-const getContractById = async (req, res, next) => {
-    try {
-        const id = req.params.id;
-        // Validate ID
-        if (!id || isNaN(id)) {
-        return res.status(400).json({ message: "Invalid ID" });
-        }
-
-        const contract = await contractService.getContractById(id);
-        if (!contract) {
-            return res.status(404).json({ message: "no contract with that id was found" });
-        }
-        return res.status(200).json(contract);
-    } catch (err) {
-        console.error('Error:', err);
-        return res.status(500).send('Internal server error');
-    }
-}
-
   
 const createContract = async (req, res, next) => {
     const {title, description, color} = req.body;
@@ -38,8 +19,25 @@ const deleteContract = async (req, res, next) => {
     return res.status(200).json({message: "contract deleted successfully"})
 }
 
+const getContractWithUsers = async (req,res) =>{
+   try {
+        const contract_id = req.params.id;
+        if(!contract_id || isNaN(contract_id)){
+            return res.status(400).json({message: "invalid id"})
+        }
+        const contract = await contractService.getContractWithUsers(contract_id);
+        if (!contract) {
+            return res.status(404).json({ message: "no contract with that id was found" });
+        }
+        return res.status(200).json(contract);
+    } catch (err) {
+        console.error('Error:', err);
+        return res.status(500).send('Internal server error');
+    }
+}
+
 module.exports={
-    getContractById,
     createContract,
-    deleteContract
+    deleteContract,
+    getContractWithUsers
 }

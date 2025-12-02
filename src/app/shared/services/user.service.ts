@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 
 export interface User {
   id?: number | string;
@@ -12,7 +13,9 @@ export interface User {
   providedIn: 'root'
 })
 export class UserService {
-  constructor() { }
+  constructor(private http: HttpClient) { }
+
+  basedUrl = 'http://localhost:3005/users';
 
   // private property to hold the logged-in user. Initiallizes as Null(=not logged in)
   private readonly _userSubject = new BehaviorSubject<User | null>(null);
@@ -96,5 +99,25 @@ export class UserService {
 
   logOut() {
     this._userSubject.next(null);
+  }
+
+  
+  uploadProfilePicture(file: File) {
+    const formData = new FormData(); //it is needed to send files to multer
+    formData.append('avatar', file);
+    const user = this.getloggedInUser();
+    const userId = user && user.id ? String(user.id) : '';
+    formData.append('userId', userId);
+
+    return this.http.post(`${this.basedUrl}/upload-pfp`, formData);
+  }
+
+  getUserContracts(): Observable<any> {
+    const user = this.getloggedInUser();
+    if (!user || !user.username) {
+      return of([]);
+    }
+    const body = { name: user.username };
+    return this.http.post('http://localhost:3005/users/contracts', body);
   }
 }

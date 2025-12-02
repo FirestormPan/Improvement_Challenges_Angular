@@ -2,7 +2,9 @@
 <br>
 <section *ngIf="logedInUser$ | async as user; else guestTemplate">
    <h2>Welcome {{ user.username }}</h2>
-   <img *ngIf="user.pfp" [src]="user.pfp" alt="profile picture">
+   <img *ngIf="user.pfp" [src]="'http://localhost:3005' + user.pfp" alt="profile picture">
+      <input type="file"  name="pfp" (change)="onFileSelected($event)">
+      <button (click)="uploadPfp()"> change pfp</button>
 </section>
 
 <ng-template #guestTemplate>

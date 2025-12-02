@@ -97,39 +97,27 @@ export class DataService {
     return typeahead
   }
   
-  // get matching users users
+  // get matching users users @Deprecated
   async getUserbyName(name:Number | String){
     const response = await fetch(`http://localhost:3001/users/${name}`);
     return await response.json() ?? {};
   }
 
+  //@Deprecated
   async getUserbyId(id:Number | String){
     const response = await fetch(`http://localhost:3001/users/${id}`);
     return await response.json() ?? {};
   }
   
-
-  // async getUserFromExpress(name:Number | String): Promise<User | undefined>{
-
-  //   const response = await fetch(`http://localhost:3001/users/${name}`);
-  //   return await response.json() ?? {};
-        
-  //   // return this.http.get<User>('http://localhost:3001/users/player', {observe: 'body', responseType: 'json'})
-  //   // .pipe(
-  //   //   map( (res)=>{
-  //   //   for(const key in res){
-  //   //   }
-  //   // } )
-  //   // )
-  //   // .subscribe((response)=>{
-  //   //   console.log(response)
-
-  //   // })
-  // }
-
+  //@Deprecated
   getFromExpressByDifficulty(color :string){
     let rechieved = this.http.get('http://localhost:3001/challenges/'+color);
    return rechieved;
+  }
+
+
+  getContractWithUsers(id: Number | String): Observable<any>{
+    return this.http.get(`http://localhost:3005/contracts/${id}`);
   }
 
 }
