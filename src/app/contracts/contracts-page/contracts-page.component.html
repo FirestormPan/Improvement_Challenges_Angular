@@ -1,8 +1,17 @@
-<app-new-contract-form (newContractEmitter)="addContract($event)"></app-new-contract-form>
-<br>
-<br>
-<br>
-<h2>Pending Contracts </h2>
+<div *ngIf="loggedInUser$ | async as user">
+    <app-new-contract-form (newContractEmitter)="addContract($event)"></app-new-contract-form>
+    <br>
+    <br>
+    <h2>Pending Contracts</h2>
+    <div class="row">
+        <div class ="col-sm-4" >
+            <div *ngFor="let contract of userContracts$ | async">
+                <app-contract-pending [contractInfo]="contract" (deleteContractEmitter)="removeContract($event)"></app-contract-pending>
+            </div>
+        </div>    
+    </div>
+</div>
+
 <div class="row">
     <div class="col-sm-4" *ngFor="let contract of userPendingContracts; let i =index">
         <app-contract-pending [contractInfo]="userPendingContracts[i]" (deleteContractEmitter)="removeContract($event)"></app-contract-pending>

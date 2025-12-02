@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable, switchMap } from 'rxjs';
+import { User, UserService } from 'src/app/shared/services/user.service';
 
 @Component({
   selector: 'app-contracts-page',
@@ -7,6 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ContractsPageComponent implements OnInit {
 
+  //kanonika 8a erxontai diafora apo ton server, epita apo klhsh
   userPendingContracts = [
     {
       id:90,
@@ -39,18 +42,26 @@ export class ContractsPageComponent implements OnInit {
       challengeLevel:"red"
     },
     {
-      id:21,
+      id:22,
       title:"Title",
       description:"Whoever raids a goblin village first, wins",
       participants:[{name:'alessandro'}, {name:"Peter"}, {name:"Franko"}, {name:"Millan"},],
       dueDate:"22-10-99",
       challengeLevel:"yellow"
     },
-  ]; //kanonika 8a erxontai diafora apo ton server, epita apo klhsh
+  ];
 
-  constructor() { }
+  loggedInUser$ : Observable<User | null>;
+  userContracts$!: Observable<Array<any>>;
+
+  constructor(private myUserService: UserService) {
+    this.loggedInUser$ = this.myUserService.loggedInUser$;
+  }
 
   ngOnInit(): void {
+  this.userContracts$ = this.loggedInUser$.pipe(
+      switchMap(user => this.myUserService.getUserContracts())
+    );
   }
 
   addContract(contractObject:any){
