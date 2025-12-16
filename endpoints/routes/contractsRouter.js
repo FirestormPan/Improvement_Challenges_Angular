@@ -10,5 +10,6 @@ res.send('respond with a resource');
 router.post('/', contractsController.createContract);
 router.delete('/:id', contractsController.deleteContract);
 router.get('/:id', contractsController.getContractWithUsers);
+router.post('/create', contractsController.createContract);
 
 module.exports = router;

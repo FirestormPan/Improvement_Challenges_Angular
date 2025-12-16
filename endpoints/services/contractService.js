@@ -1,5 +1,5 @@
 const pool = require('../helpers/connectMySQL');
-
+const userService = require('./userService');
 
 //@Deprecated
 const getContractById = async (id) => {
@@ -8,10 +8,43 @@ const getContractById = async (id) => {
   return rows[0] || null;
 }
 
-const createContract = async (title, description, color) => {
-  const sql = 'INSERT INTO contracts (title, description, color) VALUES (?, ?, ?)';
-  const [result] = await pool.query(sql, [title, description, color]);
-  return result.insertId;
+const createContract = async (title, description, color, participants) => {
+  console.log("got in the service")
+  const connection = await pool.getConnection();
+  try {
+    await connection.beginTransaction();
+    
+    const sql = 'INSERT INTO contracts (title, description, color) VALUES (?, ?, ?)';
+    const [result] = await connection.query(sql, [title, description, color]);
+    const contractId = result.insertId;
+
+    // Insert participants into the user_contracts table
+    if (participants && participants.length > 0) {
+      const userIds = await Promise.all(
+        participants.map(async (participant) => {
+          const user = await userService.getUserByName(participant);
+          return user?.id;
+        })
+      );
+
+      const validUserIds = userIds.filter(id => id != null);
+      
+      if (validUserIds.length > 0) {
+        const values = validUserIds.map(userId => [userId, contractId]);
+        const insertUserContractsSql = 'INSERT INTO user_contracts (user_id, contract_id) VALUES ?';
+        await connection.query(insertUserContractsSql, [values]);
+      }
+    }
+
+    await connection.commit();
+    console.log("transaction completed goody!")
+    return contractId;
+  } catch (error) {
+    await connection.rollback();
+    throw error;
+  } finally {
+    await connection.release();
+  }
 }
 
 const deleteContract = async (id) => {

@@ -33,40 +33,40 @@
     <br>
     <br>
     <span>Challenge level:&nbsp;&nbsp;</span>
-    <button type="button"
-        (click)="onChecked(1, {target:{checked: !checked[1]}})"
+        <button type="button"
+            (click)="onChecked(1, 'green')"
         [ngStyle]="checked[1]
             ? {'background-color':'green','color':'white','border':'none','padding':'6px 10px','border-radius':'4px'}
             : {'background-color':'transparent','border':'2px solid green','color':'green','padding':'6px 10px','border-radius':'4px'}">
         Green
     </button>&nbsp;&nbsp;
 
-    <button type="button"
-        (click)="onChecked(2, {target:{checked: !checked[2]}})"
+        <button type="button"
+            (click)="onChecked(2, 'goldenrod')"
         [ngStyle]="checked[2]
             ? {'background-color':'goldenrod','color':'black','border':'none','padding':'6px 10px','border-radius':'4px'}
             : {'background-color':'transparent','border':'2px solid goldenrod','color':'goldenrod','padding':'6px 10px','border-radius':'4px'}">
         Yellow
     </button>&nbsp;&nbsp;
 
-    <button type="button"
-        (click)="onChecked(3, {target:{checked: !checked[3]}})"
+        <button type="button"
+            (click)="onChecked(3, 'red')"
         [ngStyle]="checked[3]
             ? {'background-color':'red','color':'white','border':'none','padding':'6px 10px','border-radius':'4px'}
             : {'background-color':'transparent','border':'2px solid red','color':'red','padding':'6px 10px','border-radius':'4px'}">
         Red
     </button>&nbsp;&nbsp;
 
-    <button type="button"
-        (click)="onChecked(4, {target:{checked: !checked[4]}})"
+        <button type="button"
+            (click)="onChecked(4, 'random')"
         [ngStyle]="checked[4]
             ? {'background':'linear-gradient(90deg, green 0%, yellow 50%, red 100%)','color':'white','border':'none','padding':'6px 10px','border-radius':'4px'}
             : {'background':'transparent','border':'2px solid #ccc','color':'inherit','padding':'6px 10px','border-radius':'4px'}">
         <span style="color:green">Ra</span><span style="color:goldenrod">nd</span><span style="color:red">om</span>
     </button>&nbsp;&nbsp;
 
-    <button type="button"
-        (click)="onChecked(0, {target:{checked: !checked[0]}})"
+        <button type="button"
+            (click)="onChecked(0, 'purple')"
         [ngStyle]="checked[0]
             ? {'background-color':'purple','color':'white','border':'none','padding':'6px 10px','border-radius':'4px'}
             : {'background-color':'transparent','border':'2px solid purple','color':'purple','padding':'6px 10px','border-radius':'4px'}">

@@ -120,4 +120,9 @@ export class DataService {
     return this.http.get(`http://localhost:3005/contracts/${id}`);
   }
 
+
+  createContract(payload: any): Observable<any>{
+    // Backend expects POST /contracts
+    return this.http.post('http://localhost:3005/contracts', payload);
+  }
 }

@@ -25,39 +25,7 @@ export class NewContractFormComponent implements OnInit {
   searchControl = new FormControl('');
   searchResults$!: Observable<User[]>;
 
-  constructor(private dataservice: DataService, private userService: UserService, private elementRef: ElementRef) { 
-    this.contractParticipants.push("sampleUsername");
-    this.contractParticipants.push("sampleUsername2");
-    this.contractParticipants.push("sampleUsername2");
-    this.contractParticipants.push("sampleUsername2");
-    this.contractParticipants.push("sampleUsername2");
-    this.contractParticipants.push("sampleUsername2");
-    this.contractParticipants.push("sampleUsername2");
-    this.contractParticipants.push("sampleUsername2");
-    this.contractParticipants.push("sampleUsername2");
-    this.contractParticipants.push("sampleUsername2");
-    this.contractParticipants.push("sampleUsername2");
-    this.contractParticipants.push("sampleUsername2");
-    this.contractParticipants.push("sampleUsername2");
-    this.contractParticipants.push("sampleUsername2");
-    this.contractParticipants.push("sampleUsername2");
-    this.contractParticipants.push("sampleUsername2");
-    this.contractParticipants.push("sampleUsername2");
-    this.contractParticipants.push("sampleUsername2");
-    this.contractParticipants.push("sampleUsername2");
-    this.contractParticipants.push("sampleUsername2");
-    this.contractParticipants.push("sampleUsername2");
-    this.contractParticipants.push("sampleUsername2");
-    this.contractParticipants.push("sampleUsername2");
-    this.contractParticipants.push("sampleUsername2");
-    this.contractParticipants.push("sampleUsername2");
-    this.contractParticipants.push("sampleUsername2");
-    this.contractParticipants.push("sampleUsername2");
-    this.contractParticipants.push("sampleUsername2");
-    this.contractParticipants.push("sampleUsername2");
-    this.contractParticipants.push("sampleUsername2");
-    this.contractParticipants.push("sampleUsername2");
-  }
+  constructor(private dataservice: DataService, private userService: UserService, private elementRef: ElementRef) {  }
 
   ngOnInit(): void {
     this.searchResults$ = this.searchControl.valueChanges.pipe(
@@ -72,10 +40,10 @@ export class NewContractFormComponent implements OnInit {
     );
   }
 
-  onChecked(checkedBoxIndex:number, event:any){
+  onChecked(checkedBoxIndex:number, value: string){
     this.checked =  [false, false, false, false, false]
     this.checked[checkedBoxIndex] = true;
-    this.challengeLevel = event.target.value;
+    this.challengeLevel = value;
   }
 
   @ViewChild('searchWrapper') searchWrapper!: ElementRef;
@@ -95,16 +63,25 @@ export class NewContractFormComponent implements OnInit {
 
   onSubmit(event:any, title :string, contractdescription :string, dateinput: any ){
     event.preventDefault();
-    let vi ={
-      id: Math.ceil(Math.random()*1000),
+    const payload ={
       participants: this.contractParticipants,
       title: title,
       description: contractdescription,
-      challengeLevel: this.challengeLevel,
-      expiresOn: dateinput,
-    }
-    //console.log(vi);
-    this.newContractEmitter.emit(vi)
+      color: this.challengeLevel,
+      dueDate: dateinput || null,
+    };
+
+    // HttpClient Observables are cold: subscribe to execute the request
+    this.dataservice.createContract(payload).subscribe({
+      next: (res) => {
+        // Emit to parent so it can refresh the list or react to the creation
+        this.newContractEmitter.emit(res);
+        // Optionally reset inputs (not implemented here)
+      },
+      error: (err) => {
+        console.error('Failed to create contract', err);
+      }
+    });
   }
 
 }

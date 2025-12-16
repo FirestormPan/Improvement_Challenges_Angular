@@ -2,11 +2,13 @@ const contractService = require('../services/contractService');
 
   
 const createContract = async (req, res, next) => {
-    const {title, description, color} = req.body;
+    console.log("reached the function controller")
+    const {title, description, color, participants} = req.body;
+    console.log(title, description, color, participants)
     if(!title || !description || !color){
         return res.status(400).json({message: "missing required fields"})
     }
-    await contractService.createContract(title, description, color);
+    await contractService.createContract(title, description, color, participants);
     return res.status(201).json({message: "contract created successfully"})
 }
 
