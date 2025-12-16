@@ -29,5 +29,5 @@ router.post('/forgotPassword/', usersController.changePassword)
 router.get('/check-availability/', usersController.checkAvailability)
 router.post('/upload-pfp/', upload.single('avatar'), usersController.uploadPfp)
 router.post('/contracts/', usersController.getUserContracts)
-
+router.get('/search/:term', usersController.searchUsersByName);
 module.exports = router;

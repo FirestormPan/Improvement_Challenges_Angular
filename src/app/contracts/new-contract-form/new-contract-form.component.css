@@ -14,11 +14,11 @@ li{
 }
 
 .open{
-    display: block;
+  display: block;
 }
 
 .closed{
-    display: none;
+  display: none;
 }
 
 textarea{
@@ -35,3 +35,54 @@ textarea:focus{
 input[type="checkbox"]:hover{
     cursor: pointer;
 }
+
+.search-container {
+  position: relative;
+  width: 300px; /* adjust as needed */
+}
+
+.search-input {
+  width: 100%;
+  min-width: 20px;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+.suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: white;
+  border: 1px solid #ddd;
+  border-top: none;
+  max-height: 200px;
+  overflow-y: auto;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  z-index: 1000;
+}
+
+.suggestion-item {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.suggestion-item:hover {
+  background: #f0f0f0;
+}
+
+.participants {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.participant {
+  background: #f3f4f6;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+

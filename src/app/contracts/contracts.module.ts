@@ -5,7 +5,7 @@ import { ContractsRoutingModule } from './contracts-routing.module';
 import { ContractsPageComponent } from './contracts-page/contracts-page.component';
 import { NewContractFormComponent } from './new-contract-form/new-contract-form.component';
 import { SharedModule } from '../shared/shared.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule,ReactiveFormsModule  } from '@angular/forms';
 import { ContractPendingComponent } from './contract-pending/contract-pending.component';
 
 
@@ -19,7 +19,8 @@ import { ContractPendingComponent } from './contract-pending/contract-pending.co
     CommonModule,
     ContractsRoutingModule,
     SharedModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule 
   ]
 })
 export class ContractsModule { 

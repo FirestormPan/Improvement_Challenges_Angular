@@ -80,3 +80,11 @@ exports.uploadPfp = async (userId, filePath) => {
   console.log(userId, filePath)
   await pool.query(sql, [filePath, userId]);
 }
+
+
+exports.searchUsersByName = async (searchTerm) => {
+  const sql = `SELECT username FROM users WHERE username LIKE ?`;
+  const likeTerm = `%${searchTerm}%`;
+  const [rows] = await pool.query(sql, [likeTerm]);
+  return rows;
+}

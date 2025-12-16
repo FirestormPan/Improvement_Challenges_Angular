@@ -2,14 +2,28 @@
    <i>Create a New Contract to compete with your friends. Loser(s) get a Challenge. All fields are optional</i> 
     <br>
     <br>
-    <form (ngSubmit)="addParticipant(username.value)">
-        Participants: <input type="text" #username (input)="addParticipant(username.value)"> <button type="button" class="btn-secondary" (click)="addParticipant(username.value)">Add</button>
-        <ul>
-            <li *ngFor="let person of contractParticipants"> {{person.name}}</li>
-        </ul>
-    </form>
-
-
+    <span>Participants:
+        <div class="search-container" #searchWrapper>
+            <input [formControl]="searchControl" placeholder="Search users" class="search-input" 
+                (focus)="searchIsFocused = true" 
+                (click)="searchIsFocused = true"
+                >
+            <div class="suggestions" *ngIf="searchIsFocused && (searchResults$ | async) as results">
+            <div *ngIf="results.length > 0">
+                    <div class="suggestion-item" *ngFor="let user of results" (click)="addParticipant(user.username)">
+                        {{ user.username }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+       <div class="participants">
+            <span *ngFor="let name of contractParticipants" class="participant">
+                {{ name }}
+            </span>
+        </div>
+    </span>
+    <br>
     <br>
     Contract Title: <input type="text" #contracttitle> <br>
     <textarea rows = "5" placeholder="Contract Description. What are you betting on?" #contractdescription></textarea><br>
@@ -65,7 +79,6 @@
         <textarea rows = "5" class="{{checked[0]? 'open' : 'closed' }}"> Custom: </textarea>
     </span>
 
-    
-    <br><br><br><br>
+    <br><br><br>
     <input class="btn-primary btn-lg" type="submit">  
 </form>

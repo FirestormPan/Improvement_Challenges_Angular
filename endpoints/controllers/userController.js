@@ -114,18 +114,18 @@ const deleteUserByUsername = async (req, res) => {
 
 // Authenticate user by username and password. If multiple users have the same username, only the first found is checked.
 const authenticate_user = async (req, res) => {
-    const { username, password } = req.body;
-    try {
-        let user = await verifyUserCredentials(username, password);
+  const { username, password } = req.body;
+  try {
+      let user = await verifyUserCredentials(username, password);
 
-        if(!user) throw new Error('user credentials did not match')
+      if(!user) throw new Error('user credentials did not match')
 
-        // Return user info. later we can learn about returning a token 
-        return res.status(200).json(user);
-    } catch (err) {
-        console.error('Error during authentication:', err);
-        return res.status(401).send({ message: err.message });
-    }
+      // Return user info. later we can learn about returning a token 
+      return res.status(200).json(user);
+  } catch (err) {
+      console.error('Error during authentication:', err);
+      return res.status(401).send({ message: err.message });
+  }
 };
 
 const changePassword = async (req, res) =>{
@@ -221,6 +221,18 @@ const getUserContracts = async (req, res) => {
   res.json(contracts);
 };
 
+const searchUsersByName = async (req, res) => {
+  try {
+    const searchTerm = req.params.term?.trim();
+    const filtered = await userService.searchUsersByName(searchTerm);
+    return res.json(filtered);
+  } catch (err) {
+    console.error('Error searching users:', err);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+
 
 
 //HELPER FUNCTIONS
@@ -249,5 +261,6 @@ module.exports={
     changePassword,
     getUserContracts,
     checkAvailability,
-    uploadPfp
+    uploadPfp,
+    searchUsersByName
 }

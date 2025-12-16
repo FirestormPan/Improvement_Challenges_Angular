@@ -15,7 +15,7 @@ export interface User {
 export class UserService {
   constructor(private http: HttpClient) { }
 
-  basedUrl = 'http://localhost:3005/users';
+  baseUrl = 'http://localhost:3005/users';
 
   // private property to hold the logged-in user. Initiallizes as Null(=not logged in)
   private readonly _userSubject = new BehaviorSubject<User | null>(null);
@@ -53,7 +53,6 @@ export class UserService {
   }
 
   signUp(username: string, email: string, password: string): Promise<User | null> {
-    //todo replace with the actual fetch code to connect to backend
     return new Promise((resolve, reject) => {
       // Simulate signup with fake user for testing
       // const fakeUser: User = { id: Math.floor(Math.random() * 10000), name: username };
@@ -109,7 +108,7 @@ export class UserService {
     const userId = user && user.id ? String(user.id) : '';
     formData.append('userId', userId);
 
-    return this.http.post(`${this.basedUrl}/upload-pfp`, formData);
+    return this.http.post(`${this.baseUrl}/upload-pfp`, formData);
   }
 
   getUserContracts(): Observable<any> {
@@ -119,5 +118,12 @@ export class UserService {
     }
     const body = { name: user.username };
     return this.http.post('http://localhost:3005/users/contracts', body);
+  }
+
+  //returns all users with this text included in their username
+  searchUsers(term: string | null): Observable<User[]> {
+    const searchterm = term?.trim() ?? "";
+    const url = this.baseUrl + '/search/' + searchterm;
+    return this.http.get<User[]>(url);
   }
 }

@@ -1,16 +1,11 @@
-import { Component, EventEmitter, OnInit, Output ,ElementRef, ViewChild  } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output ,ElementRef, ViewChild, HostListener  } from '@angular/core';
 import { DataService } from 'src/app/shared/services/data.service';
+import { UserService, User } from 'src/app/shared/services/user.service';
 import { debounceTime, distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
 import { ajax } from 'rxjs/ajax';
 import { HttpClient } from '@angular/common/http';
-import { Observable, fromEvent } from 'rxjs';
-
-type Person = {
-  id: number | string;
-  name: string;
-  pfp: string;
-  contracts:string[];
-};
+import { Observable, fromEvent , of} from 'rxjs';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 
 @Component({
@@ -19,18 +14,62 @@ type Person = {
   styleUrls: ['./new-contract-form.component.css']
 })
 export class NewContractFormComponent implements OnInit {
-  @ViewChild('username') usernameInput!: ElementRef;
 
   @Output() newContractEmitter: EventEmitter<any> = new EventEmitter();
 
   checked :boolean[] = [false, false, false, false, true];
   challengeLevel: string = 'random';
-  contractParticipants :Person[] = [];
-  username ='';
+  contractParticipants :String[] = [];
 
-  constructor(private dataservice: DataService) { }
+  searchIsFocused = false;
+  searchControl = new FormControl('');
+  searchResults$!: Observable<User[]>;
+
+  constructor(private dataservice: DataService, private userService: UserService, private elementRef: ElementRef) { 
+    this.contractParticipants.push("sampleUsername");
+    this.contractParticipants.push("sampleUsername2");
+    this.contractParticipants.push("sampleUsername2");
+    this.contractParticipants.push("sampleUsername2");
+    this.contractParticipants.push("sampleUsername2");
+    this.contractParticipants.push("sampleUsername2");
+    this.contractParticipants.push("sampleUsername2");
+    this.contractParticipants.push("sampleUsername2");
+    this.contractParticipants.push("sampleUsername2");
+    this.contractParticipants.push("sampleUsername2");
+    this.contractParticipants.push("sampleUsername2");
+    this.contractParticipants.push("sampleUsername2");
+    this.contractParticipants.push("sampleUsername2");
+    this.contractParticipants.push("sampleUsername2");
+    this.contractParticipants.push("sampleUsername2");
+    this.contractParticipants.push("sampleUsername2");
+    this.contractParticipants.push("sampleUsername2");
+    this.contractParticipants.push("sampleUsername2");
+    this.contractParticipants.push("sampleUsername2");
+    this.contractParticipants.push("sampleUsername2");
+    this.contractParticipants.push("sampleUsername2");
+    this.contractParticipants.push("sampleUsername2");
+    this.contractParticipants.push("sampleUsername2");
+    this.contractParticipants.push("sampleUsername2");
+    this.contractParticipants.push("sampleUsername2");
+    this.contractParticipants.push("sampleUsername2");
+    this.contractParticipants.push("sampleUsername2");
+    this.contractParticipants.push("sampleUsername2");
+    this.contractParticipants.push("sampleUsername2");
+    this.contractParticipants.push("sampleUsername2");
+    this.contractParticipants.push("sampleUsername2");
+  }
 
   ngOnInit(): void {
+    this.searchResults$ = this.searchControl.valueChanges.pipe(
+      debounceTime(300),          // wait for user to stop typing
+      distinctUntilChanged(),      // only request when value actually changes
+      switchMap(value =>{
+        const term = value?.trim() ?? "";
+        if(term.length===0){return of([])}
+        return this.userService.searchUsers(term)   // returns an Observable from HttpClient
+      }
+      )
+    );
   }
 
   onChecked(checkedBoxIndex:number, event:any){
@@ -39,43 +78,19 @@ export class NewContractFormComponent implements OnInit {
     this.challengeLevel = event.target.value;
   }
 
-  async addParticipant(username :string) {
+  @ViewChild('searchWrapper') searchWrapper!: ElementRef;
+  @HostListener('document:click', ['$event'])
+  onClickOutside(event: Event) {
+    if (!this.searchWrapper.nativeElement.contains(event.target)) {
+      this.searchIsFocused = false;
+    }
+  }
 
-    // let a = await this.dataservice.getUserFromExpress(username);
-    // console.log(a)
-
-    // const usernameInput = this.usernameInput.nativeElement;
-
-    // fromEvent(usernameInput, 'input').pipe(
-    //   map( (e: Event) => (e as InputEvent).target?.value || ''),
-    //   filter((text:String)=>text.length>2),
-    //   debounceTime(10),
-    //   distinctUntilChanged(),
-    //   switchMap(searchTerm =>ajax(`http://localhost:3001/users/${searchTerm}`))
-    // )
-    // .subscribe((response)=>{
-    //     console.log(response)
-    //   })
-
-
-    // this.dataservice.getPeopleArrayFromName(username)
-    // .then( (newParticipant)=>{
-    //   console.log(newParticipant)
-    // }
-    // )
-    // .subscribe((response)=>{
-    //   console.log(response.name)
-    //   return response.name
-    // })
-
-
-    // let them = this.dataservice.getPeopleArrayFromName(username)
-    // them.forEach(
-    //   person =>{
-    //    if(!this.contractParticipants.find(participant => person.name === participant.name) )
-    //     this.contractParticipants.push( person )
-    //   } 
-    // )
+  async addParticipant(username :string | undefined) {
+    if(username && !this.contractParticipants.includes(username)){
+      this.contractParticipants.push(username);
+      this.searchControl.setValue('');
+    }
   }
 
   onSubmit(event:any, title :string, contractdescription :string, dateinput: any ){
