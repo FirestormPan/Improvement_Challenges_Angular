@@ -12,3 +12,22 @@ section{
     align-content: center;
     min-height: 10vh;
 }
+
+.pfp-preview {
+    max-width: 150px;
+    max-height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+    margin: 8px auto;
+    border: 2px solid #ddd;
+}
+
+.preview-wrapper {
+    text-align: center;
+}
+
+.upload-section input[type="file"] {
+    display: block;
+    margin: 8px auto;
+}

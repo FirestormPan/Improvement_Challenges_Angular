@@ -9,6 +9,11 @@ export interface User {
   contracts? : string[];
 }
 
+interface UploadPicResponse {
+  url: string;
+}
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -101,14 +106,27 @@ export class UserService {
   }
 
   
-  uploadProfilePicture(file: File) {
+  uploadProfilePicture(file: File) : Observable<UploadPicResponse> {
     const formData = new FormData(); //it is needed to send files to multer
     formData.append('avatar', file);
     const user = this.getloggedInUser();
     const userId = user && user.id ? String(user.id) : '';
     formData.append('userId', userId);
 
-    return this.http.post(`${this.baseUrl}/upload-pfp`, formData);
+    return this.http.post<UploadPicResponse>(`${this.baseUrl}/upload-pfp`, formData);
+  }
+
+  /**
+   * TODO: did it with Ai (have another look to understand it completely)
+   * Update the stored logged-in user's pfp URL and emit the change.
+   * This keeps the in-memory user consistent after uploading a new picture.
+   */
+  updateUserPfp(url: string | null): void {
+    const current = this.getloggedInUser();
+    if (!current) return;
+    const updated: User = { ...current, pfp: url ?? current.pfp };
+    // Accessing the private subject to emit the updated user
+    (this as any)._userSubject.next(updated);
   }
 
   getUserContracts(): Observable<any> {

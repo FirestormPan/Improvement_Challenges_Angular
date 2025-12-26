@@ -2,9 +2,25 @@
 <br>
 <section *ngIf="logedInUser$ | async as user; else guestTemplate">
    <h2>Welcome {{ user.username }}</h2>
-   <img *ngIf="user.pfp" [src]="'http://localhost:3005' + user.pfp" alt="profile picture">
-      <input type="file"  name="pfp" (change)="onFileSelected($event)">
-      <button (click)="uploadPfp()"> change pfp</button>
+
+   <!-- Show preview if selected, otherwise show saved server pfp -->
+   <div class="pfp-wrapper">
+      <img *ngIf="selectedPreview; else serverPfp" [src]="selectedPreview" alt="profile preview" class="pfp-preview">
+   </div>
+
+   <ng-template #serverPfp>
+      <img *ngIf="user.pfp" [src]="'http://localhost:3005' + user.pfp" alt="profile picture" class="pfp-preview">
+   </ng-template>
+
+   <button (click)="toggleUpload()">
+      {{ showUploadPic ? 'Cancel' : 'Change profile picture' }}
+   </button>
+
+   <div *ngIf="showUploadPic" class="upload-section">
+      <input type="file" accept="image/*" name="pfp" (change)="onFileSelected($event)">
+      <button (click)="uploadPfp()" [disabled]="!selectedFile"> change pfp</button>
+   </div>
+
 </section>
 
 <ng-template #guestTemplate>
