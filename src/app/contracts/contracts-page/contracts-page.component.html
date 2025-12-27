@@ -5,14 +5,17 @@
 
     <h2>Pending Contracts</h2>
     <div class="row">
-        <div class ="col-sm-4" >
-            <div *ngFor="let contract of userContracts$ | async">
-                <app-contract-pending [contractInfo]="contract" (deleteContractEmitter)="removeContract($event)"></app-contract-pending>
-            </div>
-        </div>    
+        <div class="col-12 col-md-6 col-lg-4" *ngFor="let contract of userContracts$ | async">
+            <app-contract-pending
+            [contractInfo]="contract"
+            >
+            </app-contract-pending>
+        </div>
     </div>
+
 </div>
 
 
 <div *ngIf="!(loggedInUser$ | async)">
     <p>Please log in to view and manage your contracts.</p> 
+</div>

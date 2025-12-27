@@ -125,4 +125,10 @@ export class DataService {
     // Backend expects POST /contracts
     return this.http.post('http://localhost:3005/contracts', payload);
   }
+
+  deleteContract(id: Number | String): Observable<any>{
+    return this.http.delete(`http://localhost:3005/contracts/${id}`);
+  }
+
+
 }

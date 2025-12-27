@@ -1,4 +1,5 @@
 import { Component, OnInit,Input , Output, EventEmitter } from '@angular/core';
+import { DataService } from 'src/app/shared/services/data.service';
 
 @Component({
   selector: 'app-contract-pending',
@@ -9,15 +10,36 @@ export class ContractPendingComponent implements OnInit {
 
   status :string = 'pending'
   @Input() contractInfo :any;
-  @Output() deleteContractEmitter = new EventEmitter<number>();
 
-  constructor() { }
+
+  constructor(private dataService: DataService) { }
 
   ngOnInit(): void {
   }
 
+
+  completeContract(){
+    this.dataService.deleteContract(this.contractInfo.id).subscribe({
+      next: (response) => {
+      console.log('Contract completed successfully', response);
+      this.status = 'COMPLETED';
+    },
+    error: (error) => {
+      console.error('Error completing contract', error);
+    }
+    });
+  }
+
   deleteContract(){
-    this.deleteContractEmitter.emit(this.contractInfo.id)
+    this.dataService.deleteContract(this.contractInfo.id).subscribe({
+    next: (response) => {
+      console.log('Contract deleted successfully', response);
+      this.status = 'deleted';
+    },
+    error: (error) => {
+      console.error('Error deleting contract', error);
+    }
+  });
   }
 
 }
