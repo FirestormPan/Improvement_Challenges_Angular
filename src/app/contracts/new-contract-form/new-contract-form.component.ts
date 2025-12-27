@@ -63,6 +63,11 @@ export class NewContractFormComponent implements OnInit {
 
   onSubmit(event:any, title :string, contractdescription :string, dateinput: any ){
     event.preventDefault();
+
+    let user = this.userService.getloggedInUser();
+    if(user && user.username)
+      this.contractParticipants.push();
+   
     const payload ={
       participants: this.contractParticipants,
       title: title,
@@ -76,7 +81,12 @@ export class NewContractFormComponent implements OnInit {
       next: (res) => {
         // Emit to parent so it can refresh the list or react to the creation
         this.newContractEmitter.emit(res);
-        // Optionally reset inputs (not implemented here)
+
+        // Reset the form
+        this.searchControl.setValue('');
+        this.contractParticipants = [];
+        this.checked = [false, false, false, false, true];
+        this.challengeLevel = 'random';
       },
       error: (err) => {
         console.error('Failed to create contract', err);
