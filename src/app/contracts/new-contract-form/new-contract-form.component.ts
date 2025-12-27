@@ -2,10 +2,8 @@ import { Component, EventEmitter, OnInit, Output ,ElementRef, ViewChild, HostLis
 import { DataService } from 'src/app/shared/services/data.service';
 import { UserService, User } from 'src/app/shared/services/user.service';
 import { debounceTime, distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
-import { ajax } from 'rxjs/ajax';
-import { HttpClient } from '@angular/common/http';
 import { Observable, fromEvent , of} from 'rxjs';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 
 
 @Component({
@@ -44,6 +42,7 @@ export class NewContractFormComponent implements OnInit {
     this.checked =  [false, false, false, false, false]
     this.checked[checkedBoxIndex] = true;
     this.challengeLevel = value;
+
   }
 
   @ViewChild('searchWrapper') searchWrapper!: ElementRef;
@@ -64,10 +63,7 @@ export class NewContractFormComponent implements OnInit {
   onSubmit(event:any, title :string, contractdescription :string, dateinput: any ){
     event.preventDefault();
 
-    let user = this.userService.getloggedInUser();
-    if(user && user.username)
-      this.contractParticipants.push();
-   
+    //create payload
     const payload ={
       participants: this.contractParticipants,
       title: title,
@@ -75,6 +71,10 @@ export class NewContractFormComponent implements OnInit {
       color: this.challengeLevel,
       dueDate: dateinput || null,
     };
+    let user = this.userService.getloggedInUser();
+    if(user && user.username){
+      payload.participants.push(user.username);
+    }
 
     // HttpClient Observables are cold: subscribe to execute the request
     this.dataservice.createContract(payload).subscribe({
