@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { DataService } from '../../services/data.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PopupCardComponent } from './popup-card/popup-card.component';
 
@@ -11,19 +10,14 @@ import { PopupCardComponent } from './popup-card/popup-card.component';
 export class CardComponent implements OnInit {
 
   @Input() cardInfo: any;
-  applicables: any = [];
-
+  applicables: string[] = [];
   activatedon: number | string = 0;
 
-  constructor(private myDataService : DataService, private dialog: MatDialog) { }
+  constructor(private dialog: MatDialog) { }
 
   ngOnInit(): void {
-
     //get all the users on which the card can be applied on
-    this.cardInfo.applicableTo?.forEach( async (id:number) => {
-      let user = await this.myDataService.getUserbyId(id)
-      this.applicables.push(...user)
-    });   
+    this. applicables = this.cardInfo.applicableTo
   }
 
   //add the display string of the users the card can be applied on
@@ -31,7 +25,7 @@ export class CardComponent implements OnInit {
     var applicablesString = '';
     var i=0;
     while(i<3 && this.applicables[i]){
-      applicablesString += (this.applicables[i]?.name + ", ")
+      applicablesString += (this.applicables[i]+ ", ")
       i++;
     }
     applicablesString = applicablesString.slice(0, -2)
@@ -47,11 +41,10 @@ export class CardComponent implements OnInit {
       data: {
         targets: this.applicables,
         title: this.cardInfo.title,
-        
       }
     });
 
-    dialogRef.afterClosed().subscribe(result => { //no Ieda what this is. uselesS?
+    dialogRef.afterClosed().subscribe(result => {
       this.activatedon = result;
     });
   

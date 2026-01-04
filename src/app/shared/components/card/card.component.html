@@ -4,6 +4,7 @@
       <br>
       <p> {{cardInfo.text}} </p>
       <br>
+      <button> Complete </button>
     </div>
     <div *ngSwitchCase="'activatable'"  class="card card-4"> 
       <h2>  {{ cardInfo.title | titlecase }} </h2>
@@ -11,10 +12,11 @@
       <p> {{cardInfo.text}} </p>
       <br>
       <p class="card__apply">
-        <span class="card__link" (click)="openDialog()" > Apply Now <i class="fa fa-arrow-right"></i> {{getApplicablesString()}} </span>
-        
+        <span class="card__link" (click)="openDialog()"> Apply Now <i class="fa fa-arrow-right"></i> {{getApplicablesString()}} </span>
       </p>
-      <p *ngIf="activatedon"> {{  "target's id: " + activatedon  }}</p> <!-- *ngIf="activatedOn" -->
+      <span *ngIf="activatedon"> {{ "target's username: " + activatedon }}
+        <br> <button> Complete </button>
+      </span>
     </div>
     <div *ngSwitchDefault style="background-color:gray"><div>
 </div>

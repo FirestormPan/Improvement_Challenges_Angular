@@ -29,7 +29,7 @@ export class DataService {
   constructor(private http: HttpClient) { }
 
   /**
-  *gets from server
+  *gets from api
   * @returns a subscription with the wanted info
   */
  getRandomTruthOrDare(truthOrDare : string){ 
@@ -57,28 +57,28 @@ export class DataService {
         type : "activatable",
         title : 'my title is here',
         text: 'random dare',
-        applicableTo : [103, 513, 105],       
+        applicableTo : ["mando", "pando", "ladnod"],       
       },
       {
         id:1,
         title : 'my title is here',
         text: 'random dare',
         type : "normal",
-        applicableTo : [999],        
+        applicableTo : ["w99"],        
       },
       {
         id:2,
         title : 'my title is here',
         text: 'random dare',
         type : "activatable",
-        applicableTo : [999,100,123,105],        
+        applicableTo : ["w99", "agas", "ladnod", "elegas", "don"],        
       },
       {
         id:3,
         title : 'my title is here',
         text: 'random dare',
         type : "activatable",
-        applicableTo : [999,100],        
+        applicableTo : ["don", "kong"],        
       }
     ];
   }

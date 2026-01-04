@@ -30,7 +30,6 @@ export class PopupCardComponent implements OnInit {
 
   changeTarget(value:any){
     this.finalTarget = value ;
-    console.log(this.finalTarget);
   }  
 
 }

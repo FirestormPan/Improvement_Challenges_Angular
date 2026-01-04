@@ -1,0 +1,55 @@
+/* Simple, elegant styles for the popup dialog  (AI generated)*/
+h4 {
+  margin: 0 0 10px 0;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #0b1220;
+}
+
+/* Make the Material form field fit nicely */
+mat-form-field { width: 100%; }
+.mat-form-field-appearance-fill .mat-form-field-flex {
+  background: #ffffff;
+  border-radius: 8px;
+}
+
+/* Select dropdown alignment */
+mat-select { width: 100%; }
+
+/* Buttons: right aligned, tasteful primary + ghost style */
+button[mat-button] {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.8rem;
+  border-radius: 8px;
+  border: 1px solid rgba(15,23,42,0.06);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: transform 140ms ease, box-shadow 140ms ease, background 240ms ease;
+  float: right;
+  margin-left: 0.5rem;
+}
+
+button[mat-button]:first-child {
+  background: linear-gradient(90deg,#1f6feb,#185ed6);
+  color: #fff;
+  border: none;
+  box-shadow: 0 8px 26px rgba(31,111,235,0.10);
+}
+
+button[mat-button]:hover { transform: translateY(-2px); }
+
+/* Make layout nicer on small screens */
+@media (max-width: 440px) {
+  :host { padding: .8rem; }
+  button[mat-button] { float: none; margin-left: 0.5rem; }
+  button[mat-button]:first-child { width: 48%; }
+  button[mat-button]:last-child { width: 48%; }
+}
+
+/* Small accessibility niceties */
+:focus:not(:focus-visible){ outline: none; }
+:focus-visible{ outline: 3px solid rgba(31,111,235,0.14); outline-offset: 2px; }
