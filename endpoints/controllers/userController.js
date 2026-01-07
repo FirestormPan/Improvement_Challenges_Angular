@@ -233,6 +233,18 @@ const searchUsersByName = async (req, res) => {
 };
 
 
+const getCards = async (req, res) => {
+  try {
+    const ownerId = req.params.ownerId;
+    const cards = await userService.getCards(ownerId);
+    return res.status(200).json(cards);
+  } catch (err) {
+    console.error('Error fetching cards:', err);
+    return res.status(500).json({ message: 'Internal server error' });
+  } 
+};
+
+
 
 
 //HELPER FUNCTIONS
@@ -262,5 +274,6 @@ module.exports={
     getUserContracts,
     checkAvailability,
     uploadPfp,
-    searchUsersByName
+    searchUsersByName,
+    getCards
 }
