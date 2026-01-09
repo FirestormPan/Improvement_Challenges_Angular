@@ -91,32 +91,34 @@ exports.searchUsersByName = async (searchTerm) => {
 
 
 exports.getCards = async (ownerId) => {
- const sql = `SELECT 
-    c.id AS card_id,
-    c.title,
-    u.id AS user_id,
-    u.username AS user_name
-  FROM cards c
-  LEFT JOIN card_users cu ON cu.card_id = c.id
-  LEFT JOIN users u ON u.id = cu.user_id
-  WHERE c.owner_id = ?
-`
-const [rows] = await pool.query(sql, [ownerId]);
+  const sql = `SELECT 
+      c.id AS card_id,
+      c.title,
+      c.type,
+      u.id AS user_id,
+      u.username AS user_name
+    FROM cards c
+    LEFT JOIN card_users cu ON cu.card_id = c.id
+    LEFT JOIN users u ON u.id = cu.user_id
+    WHERE c.owner_id = ?
+  `
+  const [rows] = await pool.query(sql, [ownerId]);
 
-let cards = {};
-rows.forEach(r => {
-  if (!cards[r.card_id]) {
-    cards[r.card_id] = {
-      id: r.card_id,
-      title: r.title,
-      users: []
-    };
-  }
-  if (r.user_id) {
-    cards[r.card_id].users.push({ id: r.user_id, name: r.user_name });
-  }
-});
+  let cards = {};
+  rows.forEach(r => {
+    if (!cards[r.card_id]) {
+      cards[r.card_id] = {
+        id: r.card_id,
+        title: r.title,
+        type: r.type,
+        users: []
+      };
+    }
+    if (r.user_id) {
+      cards[r.card_id].users.push({ id: r.user_id, name: r.user_name });
+    }
+  });
 
-return Object.values(cards);
+  return Object.values(cards);
 
 }

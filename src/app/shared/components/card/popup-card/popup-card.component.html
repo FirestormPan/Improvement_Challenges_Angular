@@ -4,7 +4,7 @@
     <mat-label>Select your Victim</mat-label>
     <mat-select  (selectionChange)="changeTarget($event.value)">
         <mat-option *ngFor="let target of data.targets" [value]="target"  ngDefaultControl >
-            {{target}}
+            {{target.name}}
          </mat-option>
     </mat-select>
 </mat-form-field>

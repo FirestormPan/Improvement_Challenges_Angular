@@ -4,27 +4,15 @@ import { Observable, fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
 import { ajax } from 'rxjs/ajax';
 
+export type CardInfo ={
+  id :(number | string), title :string, type :string ,applicableTo :string[]
+}
+
+
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
-
-  ourChallenges = [
-    {difficulty: "red", type: 'activateable', question:'Πεσε 10 καμψεις'},
-    {difficulty: "red", type: 'activateable', question:'Dance an oriental belly dance for 2 mins'},
-    {difficulty: "red", type: 'activateable', question:'Sing Afrika by Shakira song'},
-    {difficulty: "red", type: 'activateable', question:"Become the winner's(or a random group member's) bard for 15mins. You have to sing/narrate their actions in a heroic way."},
-    {difficulty: "red", type: 'activateable', question:'Πεσε 10 καμψεις'},
-    {difficulty: "red", type: 'activateable', question:'Πεσε 10 καμψεις'},
-    {difficulty: "red", type: 'activateable', question:'Πεσε 10 καμψεις'},
-    {difficulty: "red", type: 'activateable', question:'Πεσε 10 καμψεις'},
-    {difficulty: "red", type: 'activateable', question:'Πεσε 10 καμψεις'},
-    {difficulty: "red", type: 'activateable', question:'Πεσε 10 καμψεις'},
-    {difficulty: "red", type: 'activateable', question:'Πεσε 10 καμψεις'},
-    {difficulty: "red", type: 'activateable', question:'Πεσε 10 καμψεις'},
-    {difficulty: "red", type: 'activateable', question:'Πεσε 10 καμψεις'},
-    {difficulty: "red", type: 'activateable', question:'Πεσε 10 καμψεις'},
-  ]
 
   constructor(private http: HttpClient) { }
 
@@ -50,42 +38,12 @@ export class DataService {
  }
 
 
-  getPersonsCards(){
-    return [
-      {
-        id:0,
-        type : "activatable",
-        title : 'my title is here',
-        text: 'random dare',
-        applicableTo : ["mando", "pando", "ladnod"],       
-      },
-      {
-        id:1,
-        title : 'my title is here',
-        text: 'random dare',
-        type : "normal",
-        applicableTo : ["w99"],        
-      },
-      {
-        id:2,
-        title : 'my title is here',
-        text: 'random dare',
-        type : "activatable",
-        applicableTo : ["w99", "agas", "ladnod", "elegas", "don"],        
-      },
-      {
-        id:3,
-        title : 'my title is here',
-        text: 'random dare',
-        type : "activatable",
-        applicableTo : ["don", "kong"],        
-      }
-    ];
+  getPersonsCards(user_id: number){
+    return this.http.get('http://localhost:3005/users/cards/'  + user_id);
   }
 
 
   async getPeopleArrayFromName(wantedName :string){ //express
-
     const contenstantInput = document.getElementById('username') as HTMLInputElement;
     const typeahead = fromEvent(contenstantInput, 'input').pipe(
       map(e=>(e.target as HTMLInputElement).value),
@@ -128,6 +86,10 @@ export class DataService {
 
   deleteContract(id: Number | String): Observable<any>{
     return this.http.delete(`http://localhost:3005/contracts/${id}`);
+  }
+
+  completeContract(contract_id: number): Observable<any>{
+    return this.http.delete(`http://localhost:3005/contracts/complete/${contract_id}`);
   }
 
 

@@ -10,14 +10,14 @@ import { PopupCardComponent } from './popup-card/popup-card.component';
 export class CardComponent implements OnInit {
 
   @Input() cardInfo: any;
-  applicables: string[] = [];
+  applicables: any[] = [];
   activatedon: number | string = 0;
 
   constructor(private dialog: MatDialog) { }
 
   ngOnInit(): void {
     //get all the users on which the card can be applied on
-    this. applicables = this.cardInfo.applicableTo
+    this.applicables = this.cardInfo.users;
   }
 
   //add the display string of the users the card can be applied on
@@ -25,7 +25,7 @@ export class CardComponent implements OnInit {
     var applicablesString = '';
     var i=0;
     while(i<3 && this.applicables[i]){
-      applicablesString += (this.applicables[i]+ ", ")
+      applicablesString += (this.applicables[i].name + ", ")
       i++;
     }
     applicablesString = applicablesString.slice(0, -2)
@@ -45,9 +45,8 @@ export class CardComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.activatedon = result;
+      this.activatedon = result.name;
     });
   
   }
-
 }
