@@ -1,28 +1,29 @@
 <form class="basicForm" (ngSubmit)="onSubmit($event, contracttitle.value.toString(), contractdescription.value.toString(), dateinput.value)">
-   <i>Create a New Contract to compete with your friends. Loser(s) get a Challenge. All fields are optional</i> 
+   <i>Create a New Contract to compete with your friends. Loser(s) get a Challenge</i> 
     <br>
     <br>
-    <span>Participants:
-        <div class="search-container" #searchWrapper>
-            <input [formControl]="searchControl" placeholder="Search users" class="search-input" 
-                (focus)="searchIsFocused = true" 
-                (click)="searchIsFocused = true"
-                >
-            <div class="suggestions" *ngIf="searchIsFocused && (searchResults$ | async) as results">
-            <div *ngIf="results.length > 0">
-                    <div class="suggestion-item" *ngFor="let user of results" (click)="addParticipant(user.username)">
-                        {{ user.username }}
-                    </div>
+   
+    <div class="search-container" #searchWrapper>
+        <span>Participants: </span>
+        <input [formControl]="searchControl" placeholder="Search users" class="search-input" 
+            (focus)="searchIsFocused = true" 
+            (click)="searchIsFocused = true"
+            >
+        <div class="suggestions" *ngIf="searchIsFocused && (searchResults$ | async) as results">
+        <div *ngIf="results.length > 0">
+                <div class="suggestion-item" *ngFor="let user of results" (click)="addParticipant(user.username)">
+                    {{ user.username }}
                 </div>
             </div>
         </div>
-        <br>
-       <div class="participants">
-            <span *ngFor="let name of contractParticipants" class="participant">
-                {{ name }}
-            </span>
-        </div>
-    </span>
+    </div>
+    <br>
+    <div class="participants">
+        <span *ngFor="let name of contractParticipants" class="participant">
+            {{ name }}
+        </span>
+    </div>
+   
     <br>
     <br>
     Contract Title: <input type="text" #contracttitle> <br>

@@ -2,9 +2,6 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { User, UserService } from 'src/app/shared/services/user.service';
 import { LoginModalService } from 'src/app/shared/services/login-modal.service';
-//aimations on scroll
-// import * as AOS from 'aos';
-// import 'aos/dist/aos.css'; // Import the CSS as needed
 
 
 @Component({
@@ -15,24 +12,22 @@ import { LoginModalService } from 'src/app/shared/services/login-modal.service';
 export class ProfilePageComponent implements OnInit {
 
   logedInUser$: Observable<User | null>;
+  
   showUploadPic = false;
   selectedFile: File | null = null;
   selectedPreview: string | null = null;
-
   userPfpUrl$ = new BehaviorSubject<string | null>(null);
-
 
   @Output() sendLogout = new EventEmitter<any>()
 
   constructor(private userService: UserService, public loginModal: LoginModalService) {
     this.logedInUser$ = this.userService.loggedInUser$;
-   }
+  }
 
   ngOnInit(): void {
-   this.logedInUser$.subscribe(user => {
-    this.userPfpUrl$.next(user?.pfp ?? null);
-  });
-
+    this.userService.loggedInUser$.subscribe(user => {
+      this.userPfpUrl$.next(user?.pfp ?? null);
+    });
   }
 
   toggleLoginPopup(mode: 'login' | 'register'): void {

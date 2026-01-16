@@ -9,6 +9,7 @@ const cors = require("cors");
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/usersRouter');
 var challengesRouter = require('./routes/challengesRouter');
+var contractsRouter = require('./routes/contractsRouter');
 
 const app = express();
 
@@ -19,14 +20,18 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+
 app.use(cors({
   origin:"*" //ta url pou dexomai na kanoune aithmata ( https // url // :port)
 }))
 
+//serve static files from the "uploads" directory
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 //step2 kalw ta routers (step 3 na ta ftia3w sto routes folder)
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/contracts', contractsRouter);
 app.use('/challenges', challengesRouter);
 
 // catch 404 and forward to error handler (if none of the above "use" were true)

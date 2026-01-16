@@ -42,7 +42,6 @@ export class NewContractFormComponent implements OnInit {
     this.checked =  [false, false, false, false, false]
     this.checked[checkedBoxIndex] = true;
     this.challengeLevel = value;
-
   }
 
   @ViewChild('searchWrapper') searchWrapper!: ElementRef;

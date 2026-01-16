@@ -1,3 +1,7 @@
+<p *ngIf="cards.length==0">
+    please log in to view your cards
+</p>
+
 <div *ngFor="let card of cards; let i = index" >
     <app-card [cardInfo]="cards[i]"></app-card>
     <br>

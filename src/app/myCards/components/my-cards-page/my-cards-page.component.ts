@@ -13,7 +13,6 @@ import { filter, switchMap, takeUntil } from 'rxjs/operators';
 export class MyCardsPageComponent implements OnInit, OnDestroy {
 
   cards: CardInfo[] = [];
-  loading = false;
   private destroy$ = new Subject<void>();
 
   constructor(private dataservice: DataService, private userService: UserService) { }
@@ -24,18 +23,14 @@ export class MyCardsPageComponent implements OnInit, OnDestroy {
       filter(user => !!user && !!(user as any).id),
       takeUntil(this.destroy$),
       switchMap(user => {
-        this.loading = true;
         return this.dataservice.getPersonsCards(Number((user as any).id));
       })
     ).subscribe({
       next: (fetched_cards:any) => {
-        console.log('cards returned', fetched_cards);
         this.cards = fetched_cards;
-        this.loading = false;
       },
       error: err => {
         console.error('Failed to fetch cards', err);
-        this.loading = false;
       }
     });
   }
