@@ -27,7 +27,7 @@ INSERT INTO users (id, username, hashed_password, pfp, email) VALUES
 (582, 'Spaghetti', 'Default', 'https://www.w3schools.com/images/w3schools_green.jpg', 'spaghetti@example.com'),
 (580, 'Spari', 'Default', 'https://www.w3schools.com/images/w3schools_green.jpg', 'spari@example.com'),
 (581, 'Sparilillililili', 'Default', 'https://www.w3schools.com/images/w3schools_green.jpg', 'sparilillililili@example.com'),
-(1000, 'lego', '$2b$05$ZdU2CxnOiMKXv7yXjj2BRObaBXOIFD3KsHugR9VQDKR5FUV8zzafK', 'https://www.w3schools.com/images/w3schools_green.jpg', 'pantelos1999@gmail.com');
+(1000, 'lego', '$2b$05$ZdU2CxnOiMKXv7yXjj2BRObaBXOIFD3KsHugR9VQDKR5FUV8zzafK', 'https://www.w3schools.com/images/w3schools_green.jpg', 'pantel4989@gmail.com');
 
 -- Contracts table
 CREATE TABLE IF NOT EXISTS contracts (

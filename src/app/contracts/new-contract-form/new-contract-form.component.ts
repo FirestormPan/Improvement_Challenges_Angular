@@ -15,7 +15,7 @@ export class NewContractFormComponent implements OnInit {
 
   @Output() newContractEmitter: EventEmitter<any> = new EventEmitter();
 
-  checked :boolean[] = [false, false, false, false, true];
+  checked :boolean[] = [false, false, false, true];
   challengeLevel: string = 'random';
   contractParticipants :String[] = [];
 
@@ -39,7 +39,7 @@ export class NewContractFormComponent implements OnInit {
   }
 
   onChecked(checkedBoxIndex:number, value: string){
-    this.checked =  [false, false, false, false, false]
+    this.checked =  [false, false, false, false]
     this.checked[checkedBoxIndex] = true;
     this.challengeLevel = value;
   }
@@ -84,7 +84,7 @@ export class NewContractFormComponent implements OnInit {
         // Reset the form
         this.searchControl.setValue('');
         this.contractParticipants = [];
-        this.checked = [false, false, false, false, true];
+        this.checked = [false, false, false, true];
         this.challengeLevel = 'random';
       },
       error: (err) => {

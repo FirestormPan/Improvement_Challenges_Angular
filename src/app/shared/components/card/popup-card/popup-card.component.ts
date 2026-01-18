@@ -1,6 +1,5 @@
 import { Component, OnInit, Inject,  Output, EventEmitter } from '@angular/core';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-
+import { MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 @Component({
   selector: 'app-popup-card',
   templateUrl: './popup-card.component.html',
