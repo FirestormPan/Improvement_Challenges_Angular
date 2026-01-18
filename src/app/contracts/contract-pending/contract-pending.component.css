@@ -6,6 +6,12 @@ h5{
     display: inline;
 }
 
+.card-header{
+    font-weight: bold;
+    text-align: center;
+    text-decoration: double;
+}
+
 .card-footer{
     justify-content: space-evenly;
     margin-bottom: 6px;

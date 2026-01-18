@@ -1,4 +1,4 @@
-import { Component, OnInit,Input , Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input  } from '@angular/core';
 import { DataService } from 'src/app/shared/services/data.service';
 import { UserService } from 'src/app/shared/services/user.service';
 
@@ -9,7 +9,7 @@ import { UserService } from 'src/app/shared/services/user.service';
 })
 export class ContractPendingComponent implements OnInit {
 
-  status :string = 'pending'
+  status :string = 'PENDING'
   @Input() contractInfo :any;
 
 
@@ -30,6 +30,7 @@ export class ContractPendingComponent implements OnInit {
       this.status = 'COMPLETED';
     },
     error: (error) => {
+      this.status = 'ERROR';
       console.error('Error completing contract', error);
     }
     });

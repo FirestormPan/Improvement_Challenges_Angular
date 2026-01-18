@@ -1,14 +1,14 @@
 <div class="card bg-light mb-3" style="max-width: 18rem;min-height: 24rem;">
-    <div class="card-header" >STATUS: {{ status }} </div>
+    <div class="card-header" [style.backgroundColor]="contractInfo.color"> {{contractInfo.title | titlecase}} </div>
     <div class="card-body">
-      <h2 class="card-title">{{contractInfo.title | titlecase}}</h2>
+      <h4> STATUS: {{ status }} </h4>
       <p class="card-text">{{contractInfo.description}}</p>
 
+      <h5 class="badge" [style.backgroundColor]="contractInfo.color">Challenge Level: {{contractInfo.color | titlecase}}</h5>
       <dl>
         <dt>Participants:</dt>
-        <li *ngFor="let participant of contractInfo.participants">{{participant}}</li>
+        <dd *ngFor="let participant of contractInfo.participants">{{participant}}</dd>
       </dl>
-      <h5>{{contractInfo.color}}</h5>
       <p *ngIf="contractInfo.dueDate" class="card-text"><small class="text-muted">Expires On: {{contractInfo.dueDate}}</small></p>
     </div>
     <div class="card-footer">
