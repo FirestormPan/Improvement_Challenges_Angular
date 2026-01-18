@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable, switchMap, combineLatest, of } from 'rxjs';
-import { User, UserService } from 'src/app/shared/services/user.service';
-import { DataService } from 'src/app/shared/services/data.service';
+import { UserService } from 'src/app/shared/services/user.service';
+import { DataService, ContractInfo } from 'src/app/shared/services/data.service';
 
 @Component({
   selector: 'app-contracts-page',
@@ -9,30 +9,26 @@ import { DataService } from 'src/app/shared/services/data.service';
   styleUrls: ['./contracts-page.component.css']
 })
 export class ContractsPageComponent implements OnInit {
-  readonly loggedInUser$: Observable<User | null>;
-  readonly userContracts$: Observable<Array<any>>;
+  readonly userContracts$: Observable<ContractInfo[]>;
 
-  constructor(private myUserService: UserService, private dataService: DataService) {
-    this.loggedInUser$ = this.myUserService.loggedInUser$;
+  constructor(private readonly myUserService: UserService, private readonly dataService: DataService) {
 
     this.userContracts$ = this.myUserService.loggedInUser$.pipe(
       switchMap(user => {
-        if (!user) return of([] as any[]); // explicitly type empty array
-
+        if (!user) return of([]);
         return this.myUserService.getUserContracts().pipe(
-          switchMap((contracts: any[]) => {
-            if (!contracts || contracts.length === 0) return of([] as any[]);
-
-            // combineLatest returns Observable<any[]>
+          switchMap((contracts: ContractInfo[]) => {
+            if (!contracts || contracts.length === 0) return of([]);
             return combineLatest(
               contracts.map(contract =>
-                this.dataService.getContractWithUsers(contract.id) as Observable<any>
+                this.dataService.getContractWithUsers(contract.id)
               )
             );
           })
         );
       })
     );
+    
   }
 
   ngOnInit(): void {

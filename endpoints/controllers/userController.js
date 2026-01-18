@@ -204,7 +204,6 @@ const uploadPfp = async (req, res) => {
       success: true,
       url: filePath
     });
-
   } catch (err) {
     console.error(err);
     return res.status(500).json({ error: "Upload failed" });

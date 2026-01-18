@@ -1,8 +1,8 @@
 import { Component, EventEmitter, OnInit, Output ,ElementRef, ViewChild, HostListener  } from '@angular/core';
 import { DataService } from 'src/app/shared/services/data.service';
 import { UserService, User } from 'src/app/shared/services/user.service';
-import { debounceTime, distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
-import { Observable, fromEvent , of} from 'rxjs';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { Observable, of} from 'rxjs';
 import { FormControl } from '@angular/forms';
 
 
@@ -17,7 +17,7 @@ export class NewContractFormComponent implements OnInit {
 
   checked :boolean[] = [false, false, false, true];
   challengeLevel: string = 'random';
-  contractParticipants :String[] = [];
+  contractParticipants :string[] = [];
 
   searchIsFocused = false;
   searchControl = new FormControl('');
@@ -52,14 +52,14 @@ export class NewContractFormComponent implements OnInit {
     }
   }
 
-  async addParticipant(username :string | undefined) {
+  addParticipant(username :string | undefined) {
     if(username && !this.contractParticipants.includes(username)){
       this.contractParticipants.push(username);
       this.searchControl.setValue('');
     }
   }
 
-  onSubmit(event:any, title :string, contractdescription :string, dateinput: any ){
+  onSubmit(event: Event, title :string, contractdescription :string, dateinput: any ){
     event.preventDefault();
 
     //create payload

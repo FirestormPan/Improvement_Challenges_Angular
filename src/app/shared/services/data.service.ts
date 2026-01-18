@@ -8,6 +8,9 @@ export type CardInfo ={
   id :(number | string), title :string, type :string ,applicableTo :string[]
 }
 
+export type ContractInfo ={
+  id :(number | string), title :string, description :string ,challengeLevel :string, participants :string[], dueDate :string, completed :boolean
+}
 
 @Injectable({
   providedIn: 'root'
@@ -20,39 +23,23 @@ export class DataService {
   *gets from api
   * @returns a subscription with the wanted info
   */
- getRandomTruthOrDare(truthOrDare : string){ 
+  getRandomTruthOrDare(truthOrDare : string){ 
+    const URL: string = 'https://api.truthordarebot.xyz/v1/' + truthOrDare;
 
-  const baseURL: string = 'https://api.truthordarebot.xyz/v1/';
-
-  const currentURL: string = baseURL + truthOrDare;
-  try{
-    return this.http.get(currentURL);
-  }
-  catch(err){
-    return new Observable<any>(
-      (subscriber) =>{
-        subscriber.next({question:'please select again', errorLog: err})
-      }
-    );
-  }
- }
-
-
-  getPersonsCards(user_id: number){
-    return this.http.get('http://localhost:3005/users/cards/'  + user_id);
+    try{
+      return this.http.get(URL);
+    }
+    catch(err){
+      return new Observable<any>(
+        (subscriber) =>{
+          subscriber.next({question:'please select again', errorLog: err})
+        }
+      );
+    }
   }
 
-
-  async getPeopleArrayFromName(wantedName :string){ //express
-    const contenstantInput = document.getElementById('username') as HTMLInputElement;
-    const typeahead = fromEvent(contenstantInput, 'input').pipe(
-      map(e=>(e.target as HTMLInputElement).value),
-      filter(text=>text.length>2),
-      debounceTime(10),
-      distinctUntilChanged(),
-      switchMap(searchTerm =>ajax(`http://localhost:3001/users/${searchTerm}`))
-    )
-    return typeahead
+  getPersonsCards(user_id: number): Observable<CardInfo[]>{
+    return this.http.get<CardInfo[]>('http://localhost:3005/users/cards/'  + user_id);
   }
   
   // get matching users users @Deprecated
@@ -73,25 +60,20 @@ export class DataService {
    return rechieved;
   }
 
-
-  getContractWithUsers(id: Number | String): Observable<any>{
-    return this.http.get(`http://localhost:3005/contracts/${id}`);
+  getContractWithUsers(id: number | string): Observable<ContractInfo>{
+    return this.http.get<ContractInfo>(`http://localhost:3005/contracts/${id}`);
   }
 
-
   createContract(payload: any): Observable<any>{
-    // Backend expects POST /contracts
     return this.http.post('http://localhost:3005/contracts', payload);
   }
 
-  deleteContract(id: Number | String): Observable<any>{
-    return this.http.delete(`http://localhost:3005/contracts/${id}`);
+  deleteContract(id: Number | String): Observable<void>{
+    return this.http.delete<void>(`http://localhost:3005/contracts/${id}`);
   }
 
-  completeContract(payload:any): Observable<any>{
-
-    return this.http.post(`http://localhost:3005/contracts/complete/`, payload);
+  completeContract(payload:any): Observable<void>{
+    return this.http.post<void>(`http://localhost:3005/contracts/complete/`, payload);
   }
-
 
 }
