@@ -89,11 +89,11 @@ exports.searchUsersByName = async (searchTerm) => {
   return rows;
 }
 
-
 exports.getCards = async (ownerId) => {
   const sql = `SELECT 
       c.id AS card_id,
       c.title,
+      c.text,
       c.type,
       u.id AS user_id,
       u.username AS user_name
@@ -110,6 +110,7 @@ exports.getCards = async (ownerId) => {
       cards[r.card_id] = {
         id: r.card_id,
         title: r.title,
+        text: r.text,
         type: r.type,
         users: []
       };

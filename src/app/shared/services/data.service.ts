@@ -88,8 +88,9 @@ export class DataService {
     return this.http.delete(`http://localhost:3005/contracts/${id}`);
   }
 
-  completeContract(contract_id: number): Observable<any>{
-    return this.http.delete(`http://localhost:3005/contracts/complete/${contract_id}`);
+  completeContract(payload:any): Observable<any>{
+
+    return this.http.post(`http://localhost:3005/contracts/complete/`, payload);
   }
 
 

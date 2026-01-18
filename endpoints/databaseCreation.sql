@@ -3,11 +3,11 @@ USE improvementdares;
 
 -- Users table
 CREATE TABLE IF NOT EXISTS users (
-    id int AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    username varchar(255),
-    hashed_password varchar(255),
-    pfp varchar(255) DEFAULT 'https://www.w3schools.com/images/w3schools_green.jpg',
-    email varchar(255)
+	id int AUTO_INCREMENT NOT NULL PRIMARY KEY,
+	username varchar(255),
+	hashed_password varchar(255),
+	pfp varchar(255) DEFAULT 'https://www.w3schools.com/images/w3schools_green.jpg',
+	email varchar(255)
 );
 
 -- Sample users
@@ -31,42 +31,48 @@ INSERT INTO users (id, username, hashed_password, pfp, email) VALUES
 
 -- Contracts table
 CREATE TABLE IF NOT EXISTS contracts (
-    id int AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    title varchar(100),
-    description varchar(255),
-    color varchar(50),
-    dueDate datetime
+	id int AUTO_INCREMENT NOT NULL PRIMARY KEY,
+	title varchar(100),
+	description varchar(255),
+	color varchar(50),
+	dueDate datetime
 );
 
 INSERT INTO contracts (id, title, description, color) VALUES
-(1, 'contract 1', 'initial contract', 'yellow');
+(1, 'contract 1', 'initial contract', 'green'),
+(2, 'contract 2', 'dos contract', 'yellow'),
+(3, 'contract 3', 'tres contract', 'red'),
+(4, 'contract 4', 'quatro contract', 'random');
 
 -- User_contracts pivot table
 CREATE TABLE IF NOT EXISTS user_contracts (
-    user_id INT NOT NULL,
-    contract_id INT NOT NULL,
-    PRIMARY KEY (user_id, contract_id),
-    CONSTRAINT fk_user
-        FOREIGN KEY (user_id)
-        REFERENCES users(id)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE,
-    CONSTRAINT fk_contract
-        FOREIGN KEY (contract_id)
-        REFERENCES contracts(id)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
+	user_id INT NOT NULL,
+	contract_id INT NOT NULL,
+	PRIMARY KEY (user_id, contract_id),
+	CONSTRAINT fk_user
+		FOREIGN KEY (user_id)
+		REFERENCES users(id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE,
+	CONSTRAINT fk_contract
+		FOREIGN KEY (contract_id)
+		REFERENCES contracts(id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
 );
 
 INSERT INTO user_contracts (user_id, contract_id) VALUES
 (1000, 1),
-(2, 1);
+(2, 1),
+(1000,2),
+(2,2);
+
 
 -- Challenges table
 CREATE TABLE IF NOT EXISTS challenges (
-    id int AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    description varchar(255),
-    color varchar(50)
+	id int AUTO_INCREMENT NOT NULL PRIMARY KEY,
+	description varchar(255),
+	color varchar(50)
 );
 
 INSERT INTO challenges (id, description, color) VALUES
@@ -82,25 +88,26 @@ INSERT INTO challenges (id, description, color) VALUES
 
 -- Cards table
 CREATE TABLE IF NOT EXISTS cards (
-    id int AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    title varchar(255),
-    text varchar(255),
-    challenge_id int,
-    owner_id int
+	id int AUTO_INCREMENT NOT NULL PRIMARY KEY,
+	title varchar(255),
+	text varchar(255),
+    type varchar(255),
+	challenge_id int,
+	owner_id int
 );
 
-INSERT INTO cards (title, text, challenge_id, owner_id) VALUES
-('Card Alpha', 'This is the first card', 1, 1000),
-('Card Beta', 'Second card description', 2, 2),
-('Card Gamma', 'Third card example', 3, 1000),
-('Card Delta', 'Fourth card info', 1, 1000),
-('Card Epsilon', 'Fifth card data', 4, 1000);
+INSERT INTO cards (title, text, type, challenge_id, owner_id) VALUES
+('Card Alpha', 'This is the first card', "activatable", 1, 1000),
+('Card Beta', 'Second card description', "activatable", 2, 2),
+('Card Gamma', 'Third card example', "activatable", 3, 1000),
+('Card Delta', 'Fourth card info', "activatable", 1,  1000),
+('Card Epsilon', 'Fifth card data', "activatable", 4, 1000);
 
 -- Card_users table
 CREATE TABLE IF NOT EXISTS card_users (
-    card_id int,
-    user_id int,
-    PRIMARY KEY (card_id, user_id)
+	card_id int,
+	user_id int,
+	PRIMARY KEY (card_id, user_id)
 );
 
 INSERT INTO card_users (card_id, user_id) VALUES
@@ -108,4 +115,7 @@ INSERT INTO card_users (card_id, user_id) VALUES
 (1, 3),
 (2, 1),
 (3, 7),
+(3,1000),
+(3,2),
+(3,3),
 (4, 100);

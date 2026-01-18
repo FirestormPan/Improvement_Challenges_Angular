@@ -1,5 +1,6 @@
 import { Component, OnInit,Input , Output, EventEmitter } from '@angular/core';
 import { DataService } from 'src/app/shared/services/data.service';
+import { UserService } from 'src/app/shared/services/user.service';
 
 @Component({
   selector: 'app-contract-pending',
@@ -12,14 +13,18 @@ export class ContractPendingComponent implements OnInit {
   @Input() contractInfo :any;
 
 
-  constructor(private dataService: DataService) { }
+  constructor(private dataService: DataService, private userService: UserService) { }
 
   ngOnInit(): void {
   }
 
-
   completeContract(){
-    this.dataService.deleteContract(this.contractInfo.id).subscribe({
+    let user = this.userService.getloggedInUser()
+    let payload = {
+      contract_id : this.contractInfo.id,
+      owner_id: user?.id
+    }
+    this.dataService.completeContract(payload).subscribe({
       next: (response) => {
       console.log('Contract completed successfully', response);
       this.status = 'COMPLETED';

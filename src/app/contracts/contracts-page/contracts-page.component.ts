@@ -15,7 +15,7 @@ export class ContractsPageComponent implements OnInit {
   constructor(private myUserService: UserService, private dataService: DataService) {
     this.loggedInUser$ = this.myUserService.loggedInUser$;
 
-    this.userContracts$ = this.loggedInUser$.pipe(
+    this.userContracts$ = this.myUserService.loggedInUser$.pipe(
       switchMap(user => {
         if (!user) return of([] as any[]); // explicitly type empty array
 
@@ -33,10 +33,11 @@ export class ContractsPageComponent implements OnInit {
         );
       })
     );
-
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+
+  }
 
   addContract(contractObject: any): void {
     // TODO: Call service to persist to database
