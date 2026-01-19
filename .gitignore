@@ -13,13 +13,10 @@ npm-debug.log
 yarn-error.log
 
 # Server pictures
-/endpoints/uploads/
+/endpoints/uploads/*
 
-#Testing stuff
-/tests
-/src/app/testing-grounds
-
-
+# options
+endpoints/.env
 
 # IDEs and editors
 .idea/
