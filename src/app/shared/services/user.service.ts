@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, of, tap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 export interface User {
@@ -32,58 +32,45 @@ export class UserService {
   // public, read-only Observable for consumers
   readonly loggedInUser$: Observable<User | null> = this._userSubject.asObservable();
 
-  logIn(username: string, password: string) {
-    let url = this.baseUrl + '/auth';
-    fetch(url , {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({username: username, password: password})
-    }) .then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return response.json();
-    })
-    .then(data => {
-      console.log('Login successful:', data);
-      // Handle successful login (e.g., redirect, store token, etc.)
-      this._userSubject.next(data);
-    })
-    .catch(error => {
-      console.error('There was a problem with the login request:', error);
-      // Handle login error (e.g., show error message)
-    });
+  logIn(username: string, password: string): Observable<User> {
+    return this.http.post<User>(`${this.baseUrl}/auth`, { username: username, password: password }).pipe(
+      tap(user => {
+        this._userSubject.next(user);
+      })
+    )
   }
 
-  signUp(username: string, email: string, password: string): Promise<User | null> {
-    return new Promise((resolve, reject) => {
-      const url = this.baseUrl + '/signup';
-      fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ username: username, email: email, password: password })
-      })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then(data => {
-        console.log('Sign up successful:', data);
-        // Do NOT auto-login the user on sign up. Leave it to the user to explicitly log in.
-        resolve(data);
-      })
-      .catch(error => {
-        console.error('There was a problem with the sign up request:', error);
-        reject(error);
-      });
-    });
+  signUp(username: string, email: string, password: string): Observable<User> {
+    return this.http.post<User>(`${this.baseUrl}/signup`, { username: username, email: email, password: password });
   }
+
+  // signUp(username: string, email: string, password: string): Promise<User | null> {
+  //   return new Promise((resolve, reject) => {
+  //     const url = this.baseUrl + '/signup';
+  //     fetch(url, {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json'
+  //       },
+  //       body: JSON.stringify({ username: username, email: email, password: password })
+  //     })
+  //     .then(response => {
+  //       if (!response.ok) {
+  //         throw new Error('Network response was not ok');
+  //       }
+  //       return response.json();
+  //     })
+  //     .then(data => {
+  //       console.log('Sign up successful:', data);
+  //       // Do NOT auto-login the user on sign up. Leave it to the user to explicitly log in.
+  //       resolve(data);
+  //     })
+  //     .catch(error => {
+  //       console.error('There was a problem with the sign up request:', error);
+  //       reject(error);
+  //     });
+  //   });
+  // }
 
 
   getloggedInUser(): User | null  {
@@ -98,7 +85,6 @@ export class UserService {
   logOut():void {
     this._userSubject.next(null);
   }
-
   
   uploadProfilePicture(file: File) : Observable<UploadPicResponse> {
     const formData = new FormData(); //it is needed to send files to multer
