@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 export interface User {
   id?: number | string;
@@ -9,6 +10,10 @@ export interface User {
   contracts? : string[];
 }
 
+interface LoginResponse {
+  user: User;
+  token: string;
+}
 interface UploadPicResponse {
   url: string;
 }
@@ -20,7 +25,7 @@ interface UploadPicResponse {
 export class UserService {
   constructor(private http: HttpClient) { }
 
-  baseUrl = 'http://localhost:3005/users';
+  baseUrl = environment.baseUrl +'users';
 
   // private property to hold the logged-in user. Initiallizes as Null(=not logged in)
   private readonly _userSubject = new BehaviorSubject<User | null>(null);
@@ -28,12 +33,7 @@ export class UserService {
   readonly loggedInUser$: Observable<User | null> = this._userSubject.asObservable();
 
   logIn(username: string, password: string) {
-    //todo replace with the commented fetch code to connect to backend
-    // let fakeUser: User = { id: 1, username: username };
-    // let fakeUserWithPfp: User = { id: 1, username: username, pfp: "moo-ga.jpg" };
-    // this._userSubject.next(fakeUser);
-
-    let url = 'http://localhost:3005/users/auth';
+    let url = this.baseUrl + '/auth';
     fetch(url , {
       method: 'POST',
       headers: {
@@ -59,13 +59,7 @@ export class UserService {
 
   signUp(username: string, email: string, password: string): Promise<User | null> {
     return new Promise((resolve, reject) => {
-      // Simulate signup with fake user for testing
-      // const fakeUser: User = { id: Math.floor(Math.random() * 10000), name: username };
-      // this._userSubject.next(fakeUser);
-      // console.log('Sign up successful for:', username, email);
-      // resolve(fakeUser);
-
-      const url = 'http://localhost:3005/users/signup';
+      const url = this.baseUrl + '/signup';
       fetch(url, {
         method: 'POST',
         headers: {
@@ -101,7 +95,7 @@ export class UserService {
     return this.getloggedInUser() != null;
   }
 
-  logOut() {
+  logOut():void {
     this._userSubject.next(null);
   }
 
@@ -135,7 +129,7 @@ export class UserService {
       return of([]);
     }
     const body = { name: user.username };
-    return this.http.post('http://localhost:3005/users/contracts', body);
+    return this.http.post(`${this.baseUrl}/contracts`, body);
   }
 
   //returns all users with this text included in their username

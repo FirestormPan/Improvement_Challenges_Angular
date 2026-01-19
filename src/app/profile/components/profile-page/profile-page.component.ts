@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { User, UserService } from 'src/app/shared/services/user.service';
 import { LoginModalService } from 'src/app/shared/services/login-modal.service';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -10,6 +11,7 @@ import { LoginModalService } from 'src/app/shared/services/login-modal.service';
   styleUrls: ['./profile-page.component.css']
 })
 export class ProfilePageComponent implements OnInit {
+  baseUrl: string = environment.baseUrl;
 
   logedInUser$: Observable<User | null>;
   

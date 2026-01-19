@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, fromEvent } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
-import { ajax } from 'rxjs/ajax';
+import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 export type CardInfo ={
   id :(number | string), title :string, type :string ,applicableTo :string[]
@@ -16,6 +15,7 @@ export type ContractInfo ={
   providedIn: 'root'
 })
 export class DataService {
+  serverUrl = environment.baseUrl;
 
   constructor(private http: HttpClient) { }
 
@@ -39,41 +39,41 @@ export class DataService {
   }
 
   getPersonsCards(user_id: number): Observable<CardInfo[]>{
-    return this.http.get<CardInfo[]>('http://localhost:3005/users/cards/'  + user_id);
+    return this.http.get<CardInfo[]>(this.serverUrl + 'users/cards/'  + user_id);
   }
   
   // get matching users users @Deprecated
   async getUserbyName(name:Number | String){
-    const response = await fetch(`http://localhost:3001/users/${name}`);
+    const response = await fetch(`${this.serverUrl}users/${name}`);
     return await response.json() ?? {};
   }
 
   //@Deprecated
   async getUserbyId(id:Number | String){
-    const response = await fetch(`http://localhost:3001/users/${id}`);
+    const response = await fetch(`${this.serverUrl}users/${id}`);
     return await response.json() ?? {};
   }
   
   //@Deprecated
   getFromExpressByDifficulty(color :string){
-    let rechieved = this.http.get('http://localhost:3001/challenges/'+color);
+    let rechieved = this.http.get(`${this.serverUrl}/challenges/${color}`);
    return rechieved;
   }
 
   getContractWithUsers(id: number | string): Observable<ContractInfo>{
-    return this.http.get<ContractInfo>(`http://localhost:3005/contracts/${id}`);
+    return this.http.get<ContractInfo>(`${this.serverUrl}contracts/${id}`);
   }
 
   createContract(payload: any): Observable<any>{
-    return this.http.post('http://localhost:3005/contracts', payload);
+    return this.http.post(`${this.serverUrl}contracts`, payload);
   }
 
   deleteContract(id: Number | String): Observable<void>{
-    return this.http.delete<void>(`http://localhost:3005/contracts/${id}`);
+    return this.http.delete<void>(`${this.serverUrl}contracts/${id}`);
   }
 
   completeContract(payload:any): Observable<void>{
-    return this.http.post<void>(`http://localhost:3005/contracts/complete/`, payload);
+    return this.http.post<void>(`${this.serverUrl}contracts/complete/`, payload);
   }
 
 }
