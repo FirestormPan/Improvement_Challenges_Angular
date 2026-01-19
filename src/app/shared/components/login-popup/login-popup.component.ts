@@ -13,7 +13,6 @@ export class LoginPopupComponent implements OnInit {
   // Login form fields
   username: string = 'lego';
   password: string = 'qqqq';
-  remember: boolean = false;
   
   // Register form fields
   registerUsername: string = '';

@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { DataService } from 'src/app/shared/services/data.service';
 
@@ -36,16 +36,8 @@ export class DrawRandomDareComponent implements OnInit {
 
   constructor(private dataservice: DataService) { }
 
-  ngOnInit(): void {
-    this.loadSampleFromExpress();    
+  ngOnInit(): void {  
   }
-
-  loadSampleFromExpress():void{
-    let observable : Observable<any> = this.dataservice.getFromExpressByDifficulty('green')
-    observable.subscribe(this.ExpressObserver)
-    
-  }
-
 
 
   drawRandom(truthOrDare  : string):void{
@@ -54,7 +46,6 @@ export class DrawRandomDareComponent implements OnInit {
           return {type: "normal" , title: value.type , text: value.question, applicables:[]};
       })
     );
-
     observable?.subscribe(this.randomDareObserver)
   }
 
