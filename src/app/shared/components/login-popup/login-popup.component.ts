@@ -11,8 +11,8 @@ export class LoginPopupComponent implements OnInit {
   @Input() initialMode: 'login' | 'register' | null = 'login';
 
   // Login form fields
-  username: string = '';
-  password: string = '';
+  username: string = 'lego';
+  password: string = 'qqqq';
   remember: boolean = false;
   
   // Register form fields
@@ -37,8 +37,16 @@ export class LoginPopupComponent implements OnInit {
   }
 
   login(): void {
-    this.userService.logIn(this.username, this.password);
-    this.close.emit(); // Close after login (TODO: should I check if login was successful first?)
+    this.userService.logIn(this.username, this.password).subscribe({
+      next: (user) => {
+        //close after successful login
+        this.close.emit();
+      },
+      error: (error) => {
+        alert('Login failed: ' + error.message);
+      }
+    })
+    this.close.emit();
   }
 
   toggleMode(): void {
@@ -56,24 +64,27 @@ export class LoginPopupComponent implements OnInit {
       return;
     }
 
-    this.isSubmitting = true;
-    this.userService.signUp(this.registerUsername, this.registerEmail, this.registerPassword)
-      .then(() => {
-        // After a successful sign up, do not auto-login.
-        // Switch to login mode and prefill the username so the user can sign in.
-        this.isLoginMode = true;
-        this.username = this.registerUsername;
-        // Clear registration-sensitive fields
-        this.registerPassword = '';
-        this.registerConfirmPassword = '';
-        this.registerEmail = '';
-      })
-      .catch((error) => {
-        alert('Sign up failed: ' + error);
-      })
-      .finally(() => {
+
+    this.userService.signUp(this.registerUsername, this.registerEmail, this.registerPassword).subscribe({
+      next: (user) => {
+          this.isSubmitting = true;
+          // After a successful sign up, do not auto-login.
+          // Switch to login mode and prefill the username so the user can sign in.
+          this.isLoginMode = true;
+          this.username = this.registerUsername;
+          // Clear registration-sensitive fields
+          this.registerPassword = '';
+          this.registerConfirmPassword = '';
+          this.registerEmail = '';
+      },
+      error: (error) => {
+        alert('Sign up failed: ' + error.message);
+      },
+      complete: () => {
         this.isSubmitting = false;
-      });
+      }
+    })
+
   }
 
 }
