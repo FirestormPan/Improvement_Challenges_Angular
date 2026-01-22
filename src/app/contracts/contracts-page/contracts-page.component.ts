@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, switchMap, combineLatest, of } from 'rxjs';
+import { Observable, switchMap, combineLatest, of, BehaviorSubject } from 'rxjs';
 import { UserService } from 'src/app/shared/services/user.service';
 import { DataService, ContractInfo } from 'src/app/shared/services/data.service';
 
@@ -10,11 +10,16 @@ import { DataService, ContractInfo } from 'src/app/shared/services/data.service'
 })
 export class ContractsPageComponent implements OnInit {
   readonly userContracts$: Observable<ContractInfo[]>;
+  private readonly _refreshContracts = new BehaviorSubject<void>(undefined);
+
 
   constructor(private readonly myUserService: UserService, private readonly dataService: DataService) {
 
-    this.userContracts$ = this.myUserService.loggedInUser$.pipe(
-      switchMap(user => {
+    this.userContracts$ = combineLatest([
+    this.myUserService.loggedInUser$,
+    this._refreshContracts
+    ]).pipe(
+      switchMap(([user]) => {
         if (!user) return of([]);
         return this.myUserService.getUserContracts().pipe(
           switchMap((contracts: ContractInfo[]) => {
@@ -32,13 +37,11 @@ export class ContractsPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
   }
 
   addContract(contractObject: any): void {
-    // TODO: Call service to persist to database
-    // After successful creation, userContracts$ will auto-update via switchMap
     console.log('Adding contract:', contractObject);
+    this._refreshContracts.next();
   }
 
   removeContract(id: number): void {

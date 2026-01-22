@@ -124,8 +124,12 @@ const completeContract = async (contract_id, owner_id) => {
     
     return result.affectedRows > 0;
   } catch (error) {
-    await connection.rollback();
-    throw error;
+    try{
+      await connection.rollback();
+    }catch(err){
+      console.error("Rollback failed:", err);
+      throw error;
+    }
   } finally {
     await connection.release();
   }

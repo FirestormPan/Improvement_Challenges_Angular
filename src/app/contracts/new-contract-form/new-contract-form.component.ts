@@ -75,11 +75,11 @@ export class NewContractFormComponent implements OnInit {
       payload.participants.push(user.username);
     }
 
-    // HttpClient Observables are cold: subscribe to execute the request
+    // HttpClient Observables are to be called: subscribe to execute the request
     this.dataservice.createContract(payload).subscribe({
       next: (res) => {
         // Emit to parent so it can refresh the list or react to the creation
-        this.newContractEmitter.emit(res);
+        this.newContractEmitter.emit(payload);
 
         // Reset the form
         this.searchControl.setValue('');

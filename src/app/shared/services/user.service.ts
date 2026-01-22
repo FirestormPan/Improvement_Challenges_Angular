@@ -10,10 +10,6 @@ export interface User {
   contracts? : string[];
 }
 
-interface LoginResponse {
-  user: User;
-  token: string;
-}
 interface UploadPicResponse {
   url: string;
 }
@@ -43,34 +39,6 @@ export class UserService {
   signUp(username: string, email: string, password: string): Observable<User> {
     return this.http.post<User>(`${this.baseUrl}/signup`, { username: username, email: email, password: password });
   }
-
-  // signUp(username: string, email: string, password: string): Promise<User | null> {
-  //   return new Promise((resolve, reject) => {
-  //     const url = this.baseUrl + '/signup';
-  //     fetch(url, {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json'
-  //       },
-  //       body: JSON.stringify({ username: username, email: email, password: password })
-  //     })
-  //     .then(response => {
-  //       if (!response.ok) {
-  //         throw new Error('Network response was not ok');
-  //       }
-  //       return response.json();
-  //     })
-  //     .then(data => {
-  //       console.log('Sign up successful:', data);
-  //       // Do NOT auto-login the user on sign up. Leave it to the user to explicitly log in.
-  //       resolve(data);
-  //     })
-  //     .catch(error => {
-  //       console.error('There was a problem with the sign up request:', error);
-  //       reject(error);
-  //     });
-  //   });
-  // }
 
 
   getloggedInUser(): User | null  {
@@ -106,7 +74,7 @@ export class UserService {
     if (!current) return;
     const updated: User = { ...current, pfp: url ?? current.pfp };
     // Accessing the private subject to emit the updated user
-    (this as any)._userSubject.next(updated);
+    this._userSubject.next(updated);
   }
 
   getUserContracts(): Observable<any> {
