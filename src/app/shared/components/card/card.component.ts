@@ -47,6 +47,9 @@ export class CardComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       this.activatedon = result.name;
     });
-  
+  }
+
+  complete(): void {
+   
   }
 }

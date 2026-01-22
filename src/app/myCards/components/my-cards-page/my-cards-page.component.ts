@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DataService , CardInfo} from 'src/app/shared/services/data.service';
-import { UserService } from 'src/app/shared/services/user.service';
-import { Subject } from 'rxjs';
+import { User, UserService } from 'src/app/shared/services/user.service';
+import { Observable, Subject } from 'rxjs';
 import { filter, switchMap, takeUntil } from 'rxjs/operators';
 
 @Component({
@@ -10,34 +10,18 @@ import { filter, switchMap, takeUntil } from 'rxjs/operators';
   styleUrls: ['./my-cards-page.component.css']
 })
 
-export class MyCardsPageComponent implements OnInit, OnDestroy {
+export class MyCardsPageComponent implements OnInit {
 
-  cards: CardInfo[] = [];
-  private destroy$ = new Subject<void>();
-
+  cards$!: Observable<CardInfo[]>;
   constructor(private dataservice: DataService, private userService: UserService) { }
 
   ngOnInit(): void {
     // React to the logged-in user stream so we fetch cards when the user becomes available
-    this.userService.loggedInUser$.pipe(
-      filter(user => !!user && !!(user as any).id),
-      takeUntil(this.destroy$),
+    this.cards$ = this.userService.loggedInUser$.pipe(
+      filter((user): user is User & { id: number } =>   user !== null),
       switchMap(user => {
-        return this.dataservice.getPersonsCards(Number((user as any).id));
+        return this.dataservice.getPersonsCards(user.id);
       })
-    ).subscribe({
-      next: (fetched_cards:any) => {
-        this.cards = fetched_cards;
-      },
-      error: err => {
-        console.error('Failed to fetch cards', err);
-      }
-    });
+    )
   }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
 }

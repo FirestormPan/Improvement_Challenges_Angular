@@ -38,7 +38,7 @@ export class DataService {
     }
   }
 
-  getPersonsCards(user_id: number): Observable<CardInfo[]>{
+  getPersonsCards(user_id: number | string): Observable<CardInfo[]>{
     return this.http.get<CardInfo[]>(this.serverUrl + 'users/cards/'  + user_id);
   }
   

@@ -1,8 +1,15 @@
-<p *ngIf="cards.length==0">
-    please log in to view your cards
-</p>
+<div *ngIf="cards$ | async as cards else loggedOut">
+    <p *ngIf="cards.length==0">
+       You do not have any cards yet. complete contracts to earn cards!
+    </p>
 
-<div *ngFor="let card of cards; let i = index" >
-    <app-card [cardInfo]="cards[i]"></app-card>
-    <br>
+    <div *ngFor="let card of cards; let i = index" >
+        <app-card [cardInfo]="cards[i]"></app-card>
+        <br>
+    </div>
 </div>
+
+
+<ng-template #loggedOut>
+  <p>Please log in to view and manage your contracts. Create a new contract from the form.</p>
+</ng-template>
