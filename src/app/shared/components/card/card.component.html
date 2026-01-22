@@ -14,7 +14,7 @@
         <span class="card__link" (click)="openDialog()"> Apply Now <i class="fa fa-arrow-right"></i> {{getApplicablesString()}} </span>
       </p>
       <span *ngIf="activatedon"> {{ "target's username: " + activatedon }}
-        <br> <button> Complete </button>
+        <br> <button (click)="complete()"> Complete </button>
       </span>
     </div>
     <div *ngSwitchDefault style="background-color:gray"><div>

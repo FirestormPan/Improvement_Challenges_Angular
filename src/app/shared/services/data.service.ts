@@ -76,4 +76,8 @@ export class DataService {
     return this.http.post<void>(`${this.serverUrl}contracts/complete/`, payload);
   }
 
+  deleteCard(id: Number | String): Observable<void>{
+    console.log('deleting card with id:', id);
+    return this.http.delete<void>(`${this.serverUrl}challenges/deleteCard/${id}`);
+  }
 }

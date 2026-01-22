@@ -1,6 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { PopupCardComponent } from './popup-card/popup-card.component';
+import { DataService } from 'src/app/shared/services/data.service';
 
 @Component({
   selector: 'app-card',
@@ -10,10 +11,11 @@ import { PopupCardComponent } from './popup-card/popup-card.component';
 export class CardComponent implements OnInit {
 
   @Input() cardInfo: any;
+  @Output() refreshList: EventEmitter<void> = new EventEmitter<void>();
   applicables: any[] = [];
   activatedon: number | string = 0;
 
-  constructor(private dialog: MatDialog) { }
+  constructor(private dialog: MatDialog, private dataService: DataService) { }
 
   ngOnInit(): void {
     //get all the users on which the card can be applied on
@@ -50,6 +52,9 @@ export class CardComponent implements OnInit {
   }
 
   complete(): void {
-   
+    //for simplicity, just delete the card
+   this.dataService.deleteCard(this.cardInfo.id).subscribe();  
+   // emit the event to the parent component to refresh the list
+    this.refreshList.emit();
   }
 }

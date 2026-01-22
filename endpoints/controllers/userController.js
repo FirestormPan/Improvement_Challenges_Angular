@@ -12,13 +12,11 @@ const getUserById = async (req, res) => {
     }
 
     const user = await userService.getUserById(id);
-
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
 
     return res.status(200).json(user);
-
   } catch (err) {
     console.error('Error:', err);
     return res.status(500).json({ message: 'Internal server error' });

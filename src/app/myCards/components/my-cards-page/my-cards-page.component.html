@@ -4,7 +4,7 @@
     </p>
 
     <div *ngFor="let card of cards; let i = index" >
-        <app-card [cardInfo]="cards[i]"></app-card>
+        <app-card [cardInfo]="cards[i]" (refreshList)="refreshList.next()"></app-card>
         <br>
     </div>
 </div>
