@@ -17,12 +17,13 @@ export class MyCardsPageComponent implements OnInit {
   constructor(private dataservice: DataService, private userService: UserService) { }
 
   ngOnInit(): void {
-    // React to the logged-in user stream so we fetch cards when the user becomes available
+    // Combine user login stream with manual refresh trigger; fetch cards whenever either changes
     this.cards$ = combineLatest([
       this.userService.loggedInUser$
       , this.refreshList
     ])
       .pipe(
+      // Filter out when user is not logged in (null)
       filter((value):value is [User & { id: number }, void] =>   value[0] !== null),
       switchMap(([user]) => {
         return this.dataservice.getPersonsCards(user.id);

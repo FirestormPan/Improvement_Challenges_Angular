@@ -1,5 +1,5 @@
-CREATE DATABASE IF NOT EXISTS improvementdares;
-USE improvementdares;
+CREATE DATABASE IF NOT EXISTS sillycontracts;
+USE sillycontracts;
 
 -- Users table
 CREATE TABLE IF NOT EXISTS users (

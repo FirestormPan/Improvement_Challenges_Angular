@@ -8,6 +8,7 @@ import { LoginModalService } from './shared/services/login-modal.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  title = "sillycontracts";
 
   constructor(public userService: UserService, public loginModal: LoginModalService) {}
 

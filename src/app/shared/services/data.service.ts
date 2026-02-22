@@ -19,10 +19,7 @@ export class DataService {
 
   constructor(private http: HttpClient) { }
 
-  /**
-  *gets from api
-  * @returns a subscription with the wanted info
-  */
+  // Fetch random truth or dare from external API
   getRandomTruthOrDare(truthOrDare : string){ 
     const URL: string = 'https://api.truthordarebot.xyz/v1/' + truthOrDare;
 
@@ -30,6 +27,7 @@ export class DataService {
       return this.http.get(URL);
     }
     catch(err){
+      // Return error message if API request fails
       return new Observable<any>(
         (subscriber) =>{
           subscriber.next({question:'please select again', errorLog: err})

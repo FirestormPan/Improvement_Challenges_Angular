@@ -79,7 +79,8 @@ const user_patch = async (req, res)=>{
     var values4update = req.body;
 
     var sqlQuery= 'UPDATE users SET ? WHERE id = ? ;'
-    await pool.query(sqlQuery, [ values4update, req.params.id]) //leitourgei giati mysql2 can automatically convert objects into key = value pairs safely.
+    // mysql2 automatically converts objects to SET key = value pairs
+    await pool.query(sqlQuery, [ values4update, req.params.id])
 
     res.status(200).send({message: `update successfull`})
   }catch(err){

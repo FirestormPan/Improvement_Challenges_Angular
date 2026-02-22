@@ -15,6 +15,8 @@ export class ContractsPageComponent implements OnInit {
 
   constructor(private readonly myUserService: UserService, private readonly dataService: DataService) {
 
+    // Fetch full contract details (with participants) for logged-in user
+    // Uses combineLatest to fetch contract details when either user changes or refresh is triggered
     this.userContracts$ = combineLatest([
     this.myUserService.loggedInUser$,
     this._refreshContracts
@@ -22,6 +24,7 @@ export class ContractsPageComponent implements OnInit {
       switchMap(([user]) => {
         if (!user) return of([]);
         return this.myUserService.getUserContracts().pipe(
+          // Fetch full details for each contract and combine results
           switchMap((contracts: ContractInfo[]) => {
             if (!contracts || contracts.length === 0) return of([]);
             return combineLatest(

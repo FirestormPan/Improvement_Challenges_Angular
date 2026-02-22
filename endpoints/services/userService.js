@@ -104,6 +104,7 @@ exports.getCards = async (ownerId) => {
   `
   const [rows] = await pool.query(sql, [ownerId]);
 
+  // Transform flat rows into nested structure: group card rows by card_id and collect associated users
   let cards = {};
   rows.forEach(r => {
     if (!cards[r.card_id]) {

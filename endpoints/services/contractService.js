@@ -18,7 +18,7 @@ const createContract = async (title, description, color, participants) => {
     const [result] = await connection.query(sql, [title, description, color]);
     const contractId = result.insertId;
 
-    // Insert participants into the user_contracts table
+    // Resolve participant names to user IDs and link them to the contract
     if (participants && participants.length > 0) {
       const userIds = await Promise.all(
         participants.map(async (participant) => {
@@ -27,6 +27,7 @@ const createContract = async (title, description, color, participants) => {
         })
       );
 
+      // Filter out null/undefined IDs from non-existent users
       const validUserIds = userIds.filter(id => id != null);
       
       if (validUserIds.length > 0) {
@@ -53,6 +54,7 @@ const deleteContract = async (id) => {
   return result.affectedRows > 0;
 }
 
+// Retrieves contract with participant list aggregated as JSON array
 const getContractWithUsers = async (contract_id)=>{
   const sql = `SELECT 
     c.id,
@@ -73,6 +75,7 @@ const getContractWithUsers = async (contract_id)=>{
   return rows[0];
 }
 
+// Completes a contract: creates a card from it and assigns it to participants
 const completeContract = async (contract_id, owner_id) => {
   const connection = await pool.getConnection();
   try {
@@ -83,7 +86,7 @@ const completeContract = async (contract_id, owner_id) => {
     //if contract exists, start transaction
     await connection.beginTransaction();
 
-    //select a random challenge based on contract color, or any color if "random"
+    // Pick random challenge: from contract's color category, or any color if color is "random"
     let schallengeSqlql = `
         SELECT description
         FROM challenges

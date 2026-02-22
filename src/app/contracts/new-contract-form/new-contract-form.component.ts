@@ -26,6 +26,7 @@ export class NewContractFormComponent implements OnInit {
   constructor(private dataservice: DataService, private userService: UserService, private elementRef: ElementRef) {  }
 
   ngOnInit(): void {
+    // Real-time user search: debounce input, filter duplicates, then search backend
     this.searchResults$ = this.searchControl.valueChanges.pipe(
       debounceTime(300),          // wait for user to stop typing
       distinctUntilChanged(),      // only request when value actually changes
