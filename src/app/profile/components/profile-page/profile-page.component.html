@@ -1,5 +1,5 @@
 <section *ngIf="logedInUser$ | async as user; else guestTemplate">
-   <h2>Welcome {{ user.username }}</h2>
+   <h2 class="greeting">{{ user.username }}, welcome </h2>
 
    <!-- Show preview if selected, otherwise show saved server pfp -->
    <div class="pfp-wrapper">
@@ -7,7 +7,7 @@
    </div>
 
    <ng-template #serverPfp>
-      <img *ngIf="user.pfp" [src]="'http://localhost:3005' + user.pfp" alt="profile picture" class="pfp-preview">
+      <img *ngIf="user.pfp" [src]="baseUrl + user.pfp" alt="profile picture" class="pfp-preview">
    </ng-template>
 
    <button (click)="toggleUpload()">
