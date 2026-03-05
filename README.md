@@ -1,21 +1,24 @@
-# Silly Contracts
+r# Silly Contracts
 
-## Functionalities
+## Functionality
+Place bets with your friends and keep track of them as contracts. When a contract is completed, a challenge card is generated that the winner can use on other users
 
 ### Log in/sign up
-Click on  __log in__ or __sign up__ to toggle the relevant popup. Creating a user adds the username and a hashed password to the database.
+Click on  __log in__ or __sign up__ to toggle the relevant popup. Creating a user adds the username and a **hashed** password to the database.
 
 ### Changing profile picture
-Users have a profile picture(no other info, for simplicity). They can upoad a new one by uploading a file from their system. 
+Users have a profile picture. They can upload a new one by uploading a file from their system. 
 
 ### Creating a contract
-Use the form in "Contracts" page. Adding a participant fetches the users from the datase whose name includes your input. The generated contract is added to the database, and is linked to its participants. Users see the contracts in which they are included in that page.
+Use the form in "Contracts" page. When adding a contract participant, the website fetches from the database the users whose names include your input.
+The generated contract is added to the database. Its fields are the submitted form's inputs. It is linked to its participants, with a table that matches user_id with contract_id.
+Users see the contracts in which they are included/matched in the Contracts page.
 
 ### Completing a contract
-Completing a contract creates a new card in the database with input derriving from the contract. The challenge in the card is of level/color as the contract. The owner of the card is the user who completed it. In case the contract was "random" difficulty, it is randomly selected for the card. The contract is deleted from the database. 
+Completing a contract creates a new card in the database with information deriving from the contract, as a reward to the completing user. Each card has a challenge with the difficulty level of the contract. The owner(db user) of the card is simply the one who user who marks the contract as completed. The contract is then deleted from the database. 
 
 ### Cards
-A card has a challenge. The owner of the card can activate the card "on" a participant of the contract which created the card. Completing the card is only possible when a target is selected and it  removes it from the database
+A card has a challenge and a list of people on whom the owner of the card can "cast" it. Completing the card is only possible when a target-user is selected. The card is removed from the database
 
 ### Truth or dare?
 Click on the dedicated button to get a random truth or dare from an API.
@@ -32,14 +35,6 @@ Run `ng generate component component-name` to generate a new component. You can 
 ## Build
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
 
 ## Further help
 
